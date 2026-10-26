@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#26352d">
+    <meta
+      name="description"
+      content="An interactive field-book report template for a weed-management design solution for Lama Lama Country."
+    >
+    <title>Weed Management in Lama Lama Country: A Design Proposal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500;1,600&display=swap">
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <main class="stage" id="stage" data-mode="spread" data-state="closed-front">
+      <nav class="bookmarks" id="bookmarks" aria-label="Page bookmarks"></nav>
+
+      <div class="book-wrap">
+        <div class="book" id="book">
+          <span class="edge-stack edge-left" id="edge-left" aria-hidden="true"></span>
+          <span class="edge-stack edge-right" id="edge-right" aria-hidden="true"></span>
+          <div class="spread" id="spread">
+            <section class="page page-left" id="page-left" aria-label="Left page"></section>
+            <section class="page page-right" id="page-right" aria-label="Right page"></section>
+            <div class="gutter" aria-hidden="true"></div>
+            <div class="leaf-layer" id="leaf-layer"></div>
+            <button class="corner corner-next" id="corner-next" type="button" tabindex="-1" aria-hidden="true"><span></span></button>
+            <button class="corner corner-prev" id="corner-prev" type="button" tabindex="-1" aria-hidden="true"><span></span></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="book-nav">
+        <button class="nav-btn nav-prev" id="prev" type="button" aria-label="Turn to previous page">
+          <span class="arrow" aria-hidden="true">←</span><span id="prev-label">PREVIOUS</span>
+        </button>
+        <div class="nav-center">
+          <span class="progress-label" id="progress-label">COVER</span>
+          <span class="progress-track" aria-hidden="true"><span id="progress-fill"></span></span>
+          <label class="page-picker">
+            <span class="visually-hidden">Go to page</span>
+            <select id="page-select"></select>
+          </label>
+        </div>
+        <button class="nav-btn nav-next" id="next" type="button" aria-label="Turn to next page">
+          <span id="next-label">NEXT</span><span class="arrow" aria-hidden="true">→</span>
+        </button>
+      </div>
+
+      <p class="visually-hidden" id="announcer" aria-live="polite"></p>
+    </main>
+
+    <div class="foldout" id="foldout" hidden>
+      <div class="foldout-backdrop" data-action="fold-map"></div>
+      <div class="foldout-wrap" role="dialog" aria-modal="true" aria-labelledby="foldout-title">
+        <div class="foldout-sheet">
+          <div class="fold-panel fold-left">
+            <div class="fold-face fold-front"><div class="fold-art"></div></div>
+            <div class="fold-face fold-back"></div>
+          </div>
+          <div class="fold-panel fold-center">
+            <div class="fold-face fold-front"><div class="fold-art"></div></div>
+          </div>
+          <div class="fold-panel fold-right">
+            <div class="fold-face fold-front"><div class="fold-art"></div></div>
+            <div class="fold-face fold-back fold-cover">
+              <span aria-hidden="true">✳</span>
+              <strong>Fold-out map</strong>
+              <em>Lama Lama Country study area</em>
+            </div>
+          </div>
+          <div class="map-overlay">
+            <div class="map-head">
+              <span class="kicker">FOLD-OUT MAP</span>
+              <h2 id="foldout-title">Places in this report</h2>
+              <p>Select a pin to read its note.</p>
+            </div>
+            <button type="button" class="fold-close" data-action="fold-map">FOLD MAP <span aria-hidden="true">✕</span></button>
+            <div class="pins"></div>
+            <p class="map-caption">Illustrative base map only. Replace it with an approved map of the study area and cite its source.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <noscript><p class="noscript-message">Enable JavaScript to turn the pages of this report.</p></noscript>
+  </body>
+</html>
