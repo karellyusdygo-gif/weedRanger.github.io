@@ -1,7 +1,7 @@
 "use strict";
 
 /* =========================================================
-   1. YOUR CONTENT — edit these three arrays
+   1. YOUR CONTENT — edit the arrays below
    ========================================================= */
 
 /* Specimen plates: use the weeds named in the case study. */
@@ -40,12 +40,130 @@ const specimens = [
   }
 ];
 
-/* Fold-out map pins: x and y are percentages across and down the map. */
-const mapPins = [
-  { x: 22, y: 64, title: "Place name", text: "Why this place matters to the report. Add your source." },
-  { x: 41, y: 40, title: "Place name", text: "Why this place matters to the report. Add your source." },
-  { x: 58, y: 68, title: "Place name", text: "Why this place matters to the report. Add your source." },
-  { x: 77, y: 36, title: "Place name", text: "Why this place matters to the report. Add your source." }
+/* Weighted decision matrix. Scores and reasons are the team's own.
+   Ratings are worked out from each score: 90–100% Fully meets,
+   70–89% Mostly meets, 50–69% Partly meets, below 50% Weak. */
+const criteria = [
+  { key: "eff", name: "Effectiveness", short: "Effectiveness", max: 35 },
+  { key: "off", name: "Offline usability", short: "Offline", max: 20 },
+  { key: "rem", name: "Remote field operability", short: "Remote field", max: 20 },
+  { key: "mnt", name: "Maintainability", short: "Maintain.", max: 15 },
+  { key: "trn", name: "Minimal training", short: "Training", max: 10 }
+];
+
+const ratingScale = [
+  { label: "Fully meets", range: "90–100%", text: "Works fully with Lama Lama Country conditions" },
+  { label: "Mostly meets", range: "70–89%", text: "Works well with small limits" },
+  { label: "Partly meets", range: "50–69%", text: "Works, but with clear limits" },
+  { label: "Weak", range: "Below 50%", text: "Big barriers to use on Lama Lama Country" }
+];
+
+const solutions = [
+  {
+    id: "app", short: "Offline App", selected: true,
+    name: "Offline Ranger Prioritisation & Support App",
+    scores: { eff: 30, off: 19, rem: 18, mnt: 14, trn: 9 },
+    reasons: {
+      eff: "Covers the whole need: finding, keeping track and deciding what comes first. It loses a few points only because Rangers still have to reach a site to spot weeds.",
+      off: "Built to work offline first; every record is saved on the phone and uploads later.",
+      rem: "Runs on a phone that can be carried anywhere.",
+      mnt: "Phones are easy to replace, and the app can be updated remotely.",
+      trn: "Uses normal phone steps: take a photo, choose the weed, save."
+    },
+    verdict: [
+      "Covers the whole need: finding, keeping track and deciding what comes first.",
+      "Built to work offline first; records upload later.",
+      "Phones are easy to replace, and the app can be updated remotely."
+    ]
+  },
+  {
+    id: "drone", short: "Drone + ML",
+    name: "Drone + Machine-Learning Aerial Survey",
+    scores: { eff: 28, off: 14, rem: 16, mnt: 6, trn: 5 },
+    reasons: {
+      eff: "Very good at finding and mapping weeds, but does not keep treatment history, remind Rangers to go back, or help decide what comes first.",
+      off: "The drone flies without internet, but the computer program and photo uploads need strong internet.",
+      rem: "Limited by battery life, weather and thick plants, although it can reach places a vehicle cannot.",
+      mnt: "Drones need repairs and special parts, often from Cairns.",
+      trn: "Needs drone-flying training and skills to check the photos."
+    },
+    verdict: [
+      "Maps weeds but keeps no history or reminders.",
+      "Needs a pilot, batteries, and specialist repairs.",
+      "Photos need a strong internet connection to process."
+    ]
+  },
+  {
+    id: "ai", short: "AI Photo ID",
+    name: "AI Photo-Based Weed Identification",
+    scores: { eff: 24, off: 10, rem: 18, mnt: 8, trn: 8 },
+    reasons: {
+      eff: "Helps name weeds, but does not keep treatment history, remind Rangers to go back, or help decide what comes first.",
+      off: "The weed-guessing program usually needs internet or frequent updates.",
+      rem: "Runs on a phone that can be carried anywhere.",
+      mnt: "The weed-guessing ML model needs ongoing re-training.",
+      trn: "Uses normal phone steps, like the Offline App."
+    },
+    verdict: [
+      "Names weeds but gives no reminders or priorities.",
+      "Usually needs internet or regular updates.",
+      "AI model must keep being re-trained."
+    ]
+  },
+  {
+    id: "spray", short: "Spot-spray",
+    name: "Portable Spot-Spray Device",
+    scores: { eff: 15, off: 18, rem: 8, mnt: 12, trn: 8 },
+    reasons: {
+      eff: "Only helps with spraying. It does not help Rangers find weeds, keep track of sites or decide what comes first.",
+      off: "A hand sprayer needs no signal or internet at all.",
+      rem: "Heavy to carry on foot over long distances, and needs refilling with water and chemical, which limits how far Rangers can take it.",
+      mnt: "Simple parts such as nozzles and seals are easy to replace, but chemicals need safe storage.",
+      trn: "Simple to use, but safe chemical handling still needs training."
+    },
+    verdict: [
+      "Only helps with spraying, not tracking sites.",
+      "Heavy to carry far and needs refilling."
+    ]
+  }
+];
+
+/* "Why is it chosen?" — the four user needs and the app features that meet them.
+   box = highlight on the screenshot as [left, top, right, bottom] in % of the image. */
+const appScreens = {
+  sites: { src: "images/fig6-sites-screen.jpg", fig: 6, name: "Sites list screen" },
+  report: { src: "images/fig5-report-screen.jpg", fig: 5, name: "Report a weed screen" }
+};
+
+const appNeeds = [
+  {
+    key: "detect", name: "Detect", need: "Find and record weeds, even with no signal",
+    features: [
+      { title: "Works offline", screen: "sites", text: "Saves records with no signal and uploads them later.", tag: "Offline usability 19/20", boxes: [[67.5, 4.8, 87.8, 9]] },
+      { title: "Six priority weeds", screen: "report", text: "A fixed list of the six weeds keeps everyone’s records the same.", tag: "Minimal training 9/10", boxes: [[3.2, 18, 78.8, 35.6]] },
+      { title: "GPS without internet", screen: "report", text: "The phone’s GPS works with no signal.", tag: "Offline usability 19/20", boxes: [[3.2, 64.9, 96.8, 73.2]] }
+    ]
+  },
+  {
+    key: "monitor", name: "Monitor", need: "Keep track of treated sites and go back on time",
+    features: [
+      { title: "Overdue re-checks first", screen: "sites", text: "Warns when a treated site is late for its check, so it is not forgotten.", tag: "Effectiveness 30/35", boxes: [[6.6, 34.6, 33.8, 38.3]] },
+      { title: "Photo evidence", screen: "report", text: "Photos are kept to compare later visits.", tag: "Effectiveness 30/35", boxes: [[3.2, 37.2, 96.8, 63.4]] }
+    ]
+  },
+  {
+    key: "prioritise", name: "Prioritise", need: "Decide which site needs attention first",
+    features: [
+      { title: "Sorted by urgency", screen: "sites", text: "Puts the most urgent sites first, to plan short field days.", tag: "Effectiveness 30/35", boxes: [[3.2, 24.4, 36, 29.2], [3.2, 57.3, 40, 62]] },
+      { title: "Navigate to the site", screen: "sites", text: "Gives directions to the saved location.", tag: "Remote field operability 18/20", boxes: [[6.6, 48.6, 37.4, 53.6]] }
+    ]
+  },
+  {
+    key: "control", name: "Ranger control", need: "Keep Rangers and YAC in control of their information",
+    features: [
+      { title: "Checked before listing", screen: "report", text: "Reports are checked first, so Rangers and YAC stay in control.", tag: "Must-have rule", boxes: [[3.2, 10.2, 79.2, 13.2]] }
+    ]
+  }
 ];
 
 /* Pages, in reading order. On desktop they pair up as 1 2 | 3 4 | 5 6 … */
@@ -107,13 +225,6 @@ const pages = [
       { h: "Objectives" },
       { p: "We hope to establish an application that can improve efficiency and reliability of weed management work across Lama Lama Country. It should support large-scale weed monitoring and help rangers track the effectiveness of treatment. It’s also important to keep costs low and respect indigenous community priorities and cultural requirements." }
     ]
-  },
-  {
-    type: "map",
-    title: "Map of the study area",
-    tag: "MAP PLATE",
-    lead: "Unfold the map to see the places referred to in this report. Each pin opens a short note.",
-    prompt: "Replace the illustrative base map with one you have permission to use, and edit the pins in mapPins at the top of script.js."
   },
 
   /* ---- Problem analysis (from the team's draft) ---- */
@@ -182,14 +293,40 @@ const pages = [
     prompt: "Add insights, engagement approach and relevant protocols. Note any assumptions and how you will check them.",
     art: "Learn before proposing"
   },
+  /* ---- Design process & decision-making (from the team's draft) ---- */
   {
-    type: "chapter", chapter: 6,
-    title: "The proposed solution",
-    tag: "THE DESIGN",
-    lead: "Introduce your concept. Explain what it is, who it is for and how it responds to the challenge and evaluation criteria.",
-    prompt: "Describe the solution in plain language. Add sketches, photos or diagrams here when you are ready.",
-    art: "Give the idea a shape"
+    type: "section", chapter: 6,
+    title: "Design Process & Decision-Making",
+    tag: "DESIGN PROCESS",
+    blocks: [
+      { p: "We wanted to focus on a solution that could operate within the practical conditions of Lama Lama Country. Particular attention for the proposed solution was given to offline capability, easy to use, field conditions, maintainability, and the ability to improve weed-management system." },
+      { p: "We used the user need and project constraints to guide ideation, screening and final selection." },
+      { h: "Design Solution Options" },
+      { options: [
+        ["Portable Spot-Spray Device", "A portable field device designed to apply herbicide directly to identified weed infestations. It supports targeted treatment while Rangers are working to check identified infestations.", 1],
+        ["Offline Ranger Prioritisation & Support App", "An offline application that records weed locations, photos, treatment details, and follow-up information. It also organises infestation records to help Rangers monitor and prioritise sites.", 2],
+        ["AI Photo-Based Weed Identification", "An image-recognition tool that analyses photographs of weeds to assist with species identification. The identified weed information can then be used to support field recording and management.", 3],
+        ["Drone + Machine-Learning Aerial Survey", "A drone-based system that captures aerial imagery across larger areas of Country. Machine-learning analysis is used to identify and map possible weed infestations from the collected imagery.", 4]
+      ] }
+    ]
   },
+  {
+    type: "section", chapter: 6, cont: true,
+    title: "Design options in the field",
+    heading: "Design options in the field",
+    blocks: [
+      { figures: [
+        { n: 1, src: "images/fig1-spot-spray.jpg", title: "Lama Lama Ranger using a portable spot-spray device", source: "OpenAI, 2026" },
+        { n: 2, src: "images/fig2-offline-app.jpg", title: "Lama Lama Ranger using an offline weed management application", source: "OpenAI, 2026" },
+        { n: 3, src: "images/fig3-photo-id.jpg", title: "Lama Lama Ranger using AI photo-based weed identification", source: "OpenAI, 2026" },
+        { n: 4, src: "images/fig4-drone.jpg", title: "Drone detecting weed infestations", source: "OpenAI, 2026" }
+      ] }
+    ]
+  },
+  { type: "matrix", chapter: 6, cont: true, toc: true, title: "Weighted Decision Matrix" },
+  { type: "matrix-detail", chapter: 6, cont: true, title: "Scores explained" },
+  { type: "podium", chapter: 6, cont: true, toc: true, title: "The Selected Solution" },
+  { type: "why", chapter: 6, cont: true, toc: true, title: "Why is it chosen?" },
   {
     type: "chapter", chapter: 7,
     title: "How it works",
@@ -230,11 +367,11 @@ const pages = [
   {
     type: "references",
     title: "References",
-    lead: "Sources cited in this report.",
     items: [
       `Engineers Without Borders Australia. (2026a). <i>About Tropical North Queensland</i>. EWB Challenge. <a href="https://ewbchallenge.org/challenge/port-stewart-lama-lama/about-tropical-north-queensland/" target="_blank" rel="noopener">https://ewbchallenge.org/challenge/port-stewart-lama-lama/about-tropical-north-queensland/</a>`,
-      `Engineers Without Borders Australia. (2026b). <i>Design Area 4 – Augmenting the ranger program</i>. <a href="https://ewbchallenge.org/challenge/port-stewart-lama-lama/design-area-4-augmenting-the-ranger-program/" target="_blank" rel="noopener">https://ewbchallenge.org/challenge/port-stewart-lama-lama/design-area-4-augmenting-the-ranger-program/</a>`,
+      `Engineers Without Borders Australia. (2026b). <i>Design Area 4 – Augmenting the ranger program: Weed management innovation</i>. EWB Challenge. <a href="https://ewbchallenge.org/challenge/port-stewart-lama-lama/design-area-4-augmenting-the-ranger-program/" target="_blank" rel="noopener">https://ewbchallenge.org/challenge/port-stewart-lama-lama/design-area-4-augmenting-the-ranger-program/</a>`,
       `Engineers Without Borders Australia. (2026c). <i>Design considerations</i>. EWB Challenge. <a href="https://ewbchallenge.org/challenge/port-stewart-lama-lama/design-considerations/" target="_blank" rel="noopener">https://ewbchallenge.org/challenge/port-stewart-lama-lama/design-considerations/</a>`,
+      `OpenAI. (2026). <i>ChatGPT</i> (October 25 version) [Text-to-image model]. <a href="https://chatgpt.com/" target="_blank" rel="noopener">https://chatgpt.com/</a>`,
       `Weeds Australia. (n.d.). <i>Monitoring</i>. <a href="https://weeds.org.au/manage/monitoring/" target="_blank" rel="noopener">https://weeds.org.au/manage/monitoring/</a>`,
       `Yintjingga Aboriginal Corporation. (n.d.). <i>Weed monitoring</i>. Welcome to Lama Lama Country. <a href="https://www.lamalama.org.au/weed-monitoring/" target="_blank" rel="noopener">https://www.lamalama.org.au/weed-monitoring/</a>`
     ]
@@ -245,7 +382,7 @@ const pages = [
    2. SET-UP
    ========================================================= */
 
-if (pages.length % 2) pages.push({ type: "blank", title: "Notes" });
+if (pages.length % 2) pages.push({ type: "blank", title: "End paper" });
 
 const PAGES = pages.length;
 const SPREADS = PAGES / 2;
@@ -273,7 +410,6 @@ const cornerPrev = $("#corner-prev");
 const edgeLeft = $("#edge-left");
 const edgeRight = $("#edge-right");
 const announcer = $("#announcer");
-const foldout = $("#foldout");
 
 const wideQuery = matchMedia("(min-width: 901px)");
 const calmQuery = matchMedia("(prefers-reduced-motion: reduce)");
@@ -317,6 +453,7 @@ function pageHTML(item, side, light = false) {
   }
 
   const page = pages[item];
+  if (page.type === "blank") return `<div class="page-sheet ${hinge} endpaper"></div>`;
   const num = pad(item + 1);
   const title = `<span>WEED MANAGEMENT <i>·</i> LAMA LAMA COUNTRY</span>`;
   const foot = `<span>WEED MANAGEMENT IN LAMA LAMA COUNTRY</span>`;
@@ -399,7 +536,7 @@ function bodyHTML(page, index) {
         <h2 class="page-title">Inside this field book</h2>
         <ol class="toc">${pages
           .map((entry, i) => {
-            if (i < 3 || entry.type === "blank") return "";
+            if (i < 3 || entry.type === "blank" || (entry.cont && !entry.toc)) return "";
             const mark = entry.cont ? "" : entry.chapter ? pad(entry.chapter) : "✳";
             return `<li><button type="button" data-goto="${i}">
               <span class="toc-label"><b>${mark}</b>${entry.title}</span>
@@ -411,7 +548,7 @@ function bodyHTML(page, index) {
       </div>`;
 
     case "chapter":
-      return `<div class="chapter">
+      return `<div class="chapter${page.details ? " has-map" : ""}">
         <div class="page-copy">
           ${page.details ? "" : `<span class="kicker">CHAPTER ${pad(page.chapter)} <i>·</i> ${page.tag}</span>`}
           <h2 class="page-title">${page.title}</h2>
@@ -426,11 +563,11 @@ function bodyHTML(page, index) {
             </section>
           </div>` : `<p class="lead">${page.lead}</p>${promptHTML(page.prompt)}`}
         </div>
-        <figure class="page-art" aria-hidden="true">
+        ${page.details ? locationMapHTML() : `<figure class="page-art" aria-hidden="true">
           <span class="art-orbit"></span>
           <span class="art-seed">r</span>
           <figcaption class="art-caption">${page.art.toUpperCase()}</figcaption>
-        </figure>
+        </figure>`}
       </div>`;
 
     case "section":
@@ -440,18 +577,34 @@ function bodyHTML(page, index) {
         ${page.blocks.map(blockHTML).join("")}
       </div>`;
 
-    case "map":
-      return `<div class="map-page">
-        <span class="kicker">${page.tag}</span>
-        <h2 class="page-title">${page.title}</h2>
-        <p class="lead">${page.lead}</p>
-        <button type="button" class="folded-map" data-action="unfold-map">
-          <span class="folded-sheet" aria-hidden="true"><i></i><i></i><i></i>
-            <span class="folded-label">✳<br>FOLD-OUT MAP</span>
-          </span>
-          <span class="folded-cta">UNFOLD THE MAP <span aria-hidden="true">→</span></span>
-        </button>
-        ${promptHTML(page.prompt)}
+    case "matrix":
+      return `<div class="section">
+        <span class="kicker">CHAPTER ${pad(page.chapter)} <i>·</i> CONTINUED</span>
+        <h2 class="page-title is-sub">${page.title}</h2>
+        <p class="sec-p">Each option was scored against the five weighted criteria. Pick a criterion to focus on it, or build the score to watch each total add up.</p>
+        ${matrixHTML()}
+      </div>`;
+
+    case "matrix-detail":
+      return `<div class="section">
+        <span class="kicker">CHAPTER ${pad(page.chapter)} <i>·</i> CONTINUED</span>
+        ${detailHTML()}
+      </div>`;
+
+    case "podium":
+      return `<div class="section">
+        <span class="kicker">CHAPTER ${pad(page.chapter)} <i>·</i> CONTINUED</span>
+        <h2 class="page-title is-sub">The selected solution is…</h2>
+        <p class="sec-p">The four options ranked by total score. Tap a column to see why each option was, or was not, chosen.</p>
+        ${podiumHTML()}
+      </div>`;
+
+    case "why":
+      return `<div class="section">
+        <span class="kicker">CHAPTER ${pad(page.chapter)} <i>·</i> CONTINUED</span>
+        <h2 class="page-title is-sub">${page.title}</h2>
+        <p class="sec-p">Pick a need. The phone shows the prototype screen and highlights the features that meet it.</p>
+        ${whyHTML()}
       </div>`;
 
     case "specimens":
@@ -464,11 +617,8 @@ function bodyHTML(page, index) {
 
     case "references":
       return `<div class="refs">
-        <span class="kicker">SOURCES</span>
-        <h2 class="page-title">${page.title}</h2>
-        <p class="lead">${page.lead}</p>
-        <ol class="ref-list">${page.items.map((r) => `<li>${r}</li>`).join("")}</ol>
-        ${page.prompt ? promptHTML(page.prompt) : ""}
+        <h2 class="page-title refs-title">${page.title}</h2>
+        <ul class="ref-list">${page.items.map((r) => `<li>${r}</li>`).join("")}</ul>
       </div>`;
 
     case "end":
@@ -501,6 +651,23 @@ function blockHTML(b) {
   }
   if (b.quote) {
     return `<blockquote class="statement"><p>${b.quote}</p>${b.cite ? `<cite>${b.cite}</cite>` : ""}</blockquote>`;
+  }
+  if (b.options) {
+    return `<ol class="opts">${b.options
+      .map(([name, text, fig], i) => `<li>
+        <span class="opt-no">${i + 1}</span>
+        <div><h4>${name}</h4><p>${text}<span class="opt-fig">See Figure ${fig}</span></p></div>
+      </li>`)
+      .join("")}</ol>`;
+  }
+  if (b.figures) {
+    return `<div class="figs">${b.figures
+      .map((f) => `<figure class="apa-fig">
+        <figcaption><b>Figure ${f.n}</b><i>${f.title}</i></figcaption>
+        <img src="${f.src}" alt="${f.title}" loading="lazy" decoding="async">
+        <span class="fig-src">(Source: ${f.source})</span>
+      </figure>`)
+      .join("")}</div>`;
   }
   if (b.criteria) {
     const top = Math.max(...b.criteria.map((c) => c[1]));
@@ -570,6 +737,307 @@ function specimenArt(kind) {
 }
 
 /* =========================================================
+   3b. INTERACTIVE PAGES — decision matrix, podium, app walkthrough
+   ========================================================= */
+
+const ui = { crit: "all", view: "bars", need: "detect", feature: 0 };
+
+const totalOf = (s) => criteria.reduce((sum, c) => sum + s.scores[c.key], 0);
+const ranked = () => [...solutions].sort((a, b) => totalOf(b) - totalOf(a));
+
+function ratingOf(score, max) {
+  const pct = (score / max) * 100;
+  if (pct >= 90) return { label: "Fully meets", cls: "full" };
+  if (pct >= 70) return { label: "Mostly meets", cls: "most" };
+  if (pct >= 50) return { label: "Partly meets", cls: "part" };
+  return { label: "Weak", cls: "weak" };
+}
+
+const MATRIX_NOTE = `<p class="apa-note"><i>Note.</i> Criteria partly adapted from Engineers Without Borders Australia (2026b). All scores are the team’s own.</p>`;
+
+function chipsHTML() {
+  const chip = (key, label, max) =>
+    `<button type="button" class="chip" data-dm-crit="${key}" aria-pressed="${ui.crit === key}">${label}${max ? `<span>${max}</span>` : ""}</button>`;
+  return `<div class="chips" role="group" aria-label="Show criterion">
+    ${chip("all", "All criteria")}${criteria.map((c) => chip(c.key, c.name, c.max)).join("")}
+  </div>`;
+}
+
+function matrixHTML() {
+  const list = ranked();
+  const bars = ui.view === "bars";
+  return `<div class="dm" data-widget="matrix" data-crit="${ui.crit}">
+    ${chipsHTML()}
+    <div class="dm-tools">
+      ${bars ? `<button type="button" class="dm-tool" data-dm-build><span aria-hidden="true">▶</span> Build the score</button>` : ""}
+      <button type="button" class="dm-tool" data-dm-view="${bars ? "table" : "bars"}">${bars ? "Table view" : "Bar view"}</button>
+    </div>
+    <p class="apa-label"><b>Table 1</b><i>Weighted Decision Matrix</i></p>
+    ${bars ? barsHTML(list) : tableHTML(list)}
+    ${MATRIX_NOTE}
+  </div>`;
+}
+
+function barsHTML(list) {
+  return `<div class="dm-head" aria-hidden="true">
+      <span class="dm-cols">${criteria.map((c) => `<span style="flex:${c.max}" class="${ui.crit === c.key ? "on" : ""}">${c.short}</span>`).join("")}</span>
+      <span class="dm-total-h">Total</span>
+    </div>
+    <ol class="dm-rows">${list
+      .map((s, oi) => `<li class="dm-row${s.selected ? " is-top" : ""}">
+        <span class="dm-name"><b>${s.name}</b>${s.selected ? `<span class="dm-badge">Highest</span>` : ""}</span>
+        <span class="dm-line">
+          <span class="dm-bar" role="img" aria-label="${s.name}: ${criteria.map((c) => `${c.name} ${s.scores[c.key]} of ${c.max}`).join(", ")}">
+            ${criteria
+              .map((c, ci) => `<span class="dm-seg${ui.crit === c.key ? " on" : ""}" style="flex:${c.max}">
+                <i class="dm-fill" style="width:${((s.scores[c.key] / c.max) * 100).toFixed(1)}%;--ci:${ci};--oi:${oi}"></i>
+                ${ui.crit === c.key ? `<em>${s.scores[c.key]}/${c.max}</em>` : ""}
+              </span>`)
+              .join("")}
+          </span>
+          <span class="dm-total"><b data-total="${totalOf(s)}">${totalOf(s)}</b><small>/100</small></span>
+        </span>
+      </li>`)
+      .join("")}</ol>`;
+}
+
+function tableHTML(list) {
+  return `<div class="dm-table-wrap"><table class="dm-table">
+    <thead><tr><th scope="col">Solution</th>${criteria
+      .map((c) => `<th scope="col" class="${ui.crit === c.key ? "on" : ""}">${c.name} (${c.max})</th>`)
+      .join("")}<th scope="col">Total (100)</th></tr></thead>
+    <tbody>${list
+      .map((s) => `<tr class="${s.selected ? "is-top" : ""}"><th scope="row">${s.name}</th>${criteria
+        .map((c) => `<td class="${ui.crit === c.key ? "on" : ""}">${s.scores[c.key]}</td>`)
+        .join("")}<td><b>${totalOf(s)}</b></td></tr>`)
+      .join("")}</tbody>
+  </table></div>`;
+}
+
+function detailHTML() {
+  const c = criteria.find((x) => x.key === ui.crit);
+  const list = ranked();
+  if (!c) {
+    return `<div class="dm-detail" data-widget="detail">
+      <h2 class="page-title is-sub">Scores explained</h2>
+      ${chipsHTML()}
+      <h3 class="sec-h">All criteria</h3>
+      <p class="sec-p">Totals: ${list.map((s) => `${s.short} <b>${totalOf(s)}</b>`).join(", ")}. Pick a criterion to read the rating and reason for each option.</p>
+      <h3 class="sec-h">Rating scale</h3>
+      <ul class="scale">${ratingScale
+        .map((r, i) => `<li><span class="rate rate-${["full", "most", "part", "weak"][i]}">${r.label}</span><b>${r.range}</b><p>${r.text}</p></li>`)
+        .join("")}</ul>
+      ${MATRIX_NOTE}
+    </div>`;
+  }
+  return `<div class="dm-detail" data-widget="detail">
+    <h2 class="page-title is-sub">Scores explained</h2>
+    ${chipsHTML()}
+    <h3 class="sec-h">${c.name} · ${c.max} of 100 points</h3>
+    <p class="sec-p">Rating and reason for each option:</p>
+    <ul class="reasons">${list
+      .map((s) => {
+        const score = s.scores[c.key];
+        const r = ratingOf(score, c.max);
+        return `<li class="${s.selected ? "is-top" : ""}">
+          <span class="r-top"><b>${s.name}</b><span class="rate rate-${r.cls}">${r.label}</span><span class="r-score">${score} / ${c.max}</span></span>
+          <p>${s.reasons[c.key]}</p>
+        </li>`;
+      })
+      .join("")}</ul>
+    ${MATRIX_NOTE}
+  </div>`;
+}
+
+/* ---------- podium ---------- */
+
+function confettiHTML() {
+  const colors = ["#b8765c", "#596d55", "#e1c49e", "#7d9a8e", "#d79a78", "#28382f"];
+  let html = "";
+  for (let i = 0; i < 34; i += 1) {
+    const r = (n) => (Math.sin(i * 12.9898 + n * 78.233) * 43758.5453) % 1;
+    const a = Math.abs(r(1)), b = Math.abs(r(2)), c = Math.abs(r(3));
+    html += `<i style="--x:${((a - 0.5) * 300).toFixed(0)}px;--y:${(70 + b * 130).toFixed(0)}px;--r:${(c * 720 - 360).toFixed(0)}deg;--d:${(b * 0.35).toFixed(2)}s;--c:${colors[i % colors.length]};--w:${i % 3 ? 7 : 5}px;--h:${i % 2 ? 11 : 6}px"></i>`;
+  }
+  return html;
+}
+
+function podiumHTML() {
+  const list = ranked();
+  const order = [list[1], list[0], list[2], list[3]].filter(Boolean);
+  const heights = { 1: 100, 2: 76, 3: 67, 4: 58 };
+  const delays = { 4: 0.1, 3: 0.45, 2: 0.8, 1: 1.55 };
+  const winner = list[0];
+  return `<div class="podium-wrap" data-widget="podium">
+    <div class="podium-bar">
+      <p class="podium-winner"><span>Selected:</span> ${winner.name} · ${totalOf(winner)}/100</p>
+      <button type="button" class="dm-tool" data-replay><span aria-hidden="true">↻</span> Replay reveal</button>
+    </div>
+    <div class="podium">
+      <span class="spotlight" aria-hidden="true"></span>
+      <span class="confetti" aria-hidden="true">${confettiHTML()}</span>
+      ${order
+        .map((s) => {
+          const rank = list.indexOf(s) + 1;
+          return `<button type="button" class="pcol${rank === 1 ? " is-first" : ""}" data-pick="${s.id}"
+              style="--h:${heights[rank]}%;--delay:${delays[rank]}s"
+              aria-label="Rank ${rank}: ${s.name}, ${totalOf(s)} out of 100. Show why.">
+            <span class="pcol-rank">${rank}</span>
+            <span class="pcol-name">${s.short}</span>
+            ${rank === 1 ? `<span class="pcol-chip">★ Selected</span>` : ""}
+            <span class="pcol-score"><b>${totalOf(s)}</b><small>/100</small></span>
+            <span class="pcol-tap">↻ Tap to see why</span>
+          </button>`;
+        })
+        .join("")}
+    </div>
+    <div class="flash" aria-live="polite">
+      <div class="flash-inner">
+        <div class="flash-face flash-a"><p class="flash-hint">Tap a column to flip this card and see why each option was, or was not, chosen.</p></div>
+        <div class="flash-face flash-b"></div>
+      </div>
+    </div>
+  </div>`;
+}
+
+function flashCardHTML(s) {
+  const list = ranked();
+  const rank = list.indexOf(s) + 1;
+  return `<span class="flash-rank">#${rank} · ${totalOf(s)}/100</span>
+    <h4>${s.name}</h4>
+    <span class="flash-label ${s.selected ? "is-yes" : ""}">${s.selected ? "Why it was selected" : "Reason rejected"}</span>
+    <ul>${s.verdict.map((v) => `<li>${v}</li>`).join("")}</ul>`;
+}
+
+/* ---------- app walkthrough ---------- */
+
+function whyHTML() {
+  const need = appNeeds.find((n) => n.key === ui.need) || appNeeds[0];
+  const feature = need.features[ui.feature] || need.features[0];
+  const screen = appScreens[feature.screen];
+  return `<div class="why" data-widget="why">
+    <div class="needs" role="tablist" aria-label="User needs">${appNeeds
+      .map((n) => `<button type="button" role="tab" class="need" data-need="${n.key}" aria-selected="${n.key === need.key}">
+        <b>${n.name}</b><span>${n.need}</span>
+      </button>`)
+      .join("")}</div>
+    <div class="why-body">
+      <figure class="phone-fig">
+        <span class="phone">
+          <span class="phone-screen">
+            <img src="${screen.src}" alt="Offline Ranger Prioritisation & Support App: ${screen.name}" decoding="async">
+            ${feature.boxes
+              .map(([l, t, r, b]) => `<span class="hl" style="left:${l}%;top:${t}%;width:${r - l}%;height:${b - t}%"></span>`)
+              .join("")}
+          </span>
+        </span>
+        <figcaption><b>Figure ${screen.fig}</b><i>Offline Ranger Prioritisation &amp; Support App: ${screen.name}</i><span>(Screenshot by the authors)</span></figcaption>
+      </figure>
+      <div class="feats">
+        <span class="feats-k">RANGERS NEED TO…</span>
+        <p class="feats-need">${need.need.charAt(0).toLowerCase() + need.need.slice(1)}.</p>
+        <ol class="feat-list">${need.features
+          .map((f, i) => `<li><button type="button" class="feat" data-feature="${i}" aria-pressed="${f === feature}">
+            <span class="feat-no">${i + 1}</span>
+            <span class="feat-body">
+              <b>${f.title}</b>
+              <span class="feat-text">${f.text}</span>
+              <span class="feat-tags"><span class="tag tag-screen">${appScreens[f.screen].name}</span><span class="tag">${f.tag}</span></span>
+            </span>
+          </button></li>`)
+          .join("")}</ol>
+      </div>
+    </div>
+  </div>`;
+}
+
+/* ---------- widget refresh + arrival animations ---------- */
+
+const WIDGETS = { matrix: matrixHTML, detail: detailHTML, why: whyHTML };
+
+function refreshWidgets(names) {
+  [pageLeft, pageRight].forEach((side) => {
+    names.forEach((name) => {
+      side.querySelectorAll(`[data-widget="${name}"]`).forEach((el) => {
+        el.outerHTML = WIDGETS[name]();
+      });
+      side.querySelectorAll(`[data-widget="${name}"]`).forEach((el) => {
+        el.dataset.played = "";
+      });
+    });
+  });
+}
+
+function buildScore(dm) {
+  if (!dm || !dm.querySelector(".dm-fill")) return;
+  dm.classList.remove("is-building");
+  dm.classList.add("is-zero");
+  void dm.offsetWidth;
+  dm.classList.remove("is-zero");
+  dm.classList.add("is-building");
+  const duration = calmQuery.matches ? 0 : 2500;
+  dm.querySelectorAll("[data-total]").forEach((el) => {
+    const end = Number(el.dataset.total);
+    tween({ from: 0, to: end, duration, ease: easeOut, update: (v) => { el.textContent = Math.round(v); } });
+  });
+}
+
+function revealPodium(wrap) {
+  wrap.classList.remove("is-revealed");
+  void wrap.offsetWidth;
+  wrap.classList.add("is-revealed");
+}
+
+function playArrivals() {
+  [pageLeft, pageRight].forEach((side) => {
+    side.querySelectorAll('[data-widget="podium"]:not([data-played])').forEach((w) => {
+      w.dataset.played = "";
+      revealPodium(w);
+    });
+    side.querySelectorAll('[data-widget="matrix"]:not([data-played])').forEach((w) => {
+      w.dataset.played = "";
+      buildScore(w);
+    });
+    side.querySelectorAll('[data-widget]:not([data-played])').forEach((w) => {
+      w.dataset.played = "";
+    });
+  });
+}
+
+spread.addEventListener("click", (event) => {
+  const el = event.target.closest("[data-dm-crit], [data-dm-build], [data-dm-view], [data-pick], [data-replay], [data-need], [data-feature]");
+  if (!el || el.closest(".leaf")) return;
+  const d = el.dataset;
+
+  if (d.dmCrit) {
+    ui.crit = d.dmCrit;
+    refreshWidgets(["matrix", "detail"]);
+  } else if ("dmBuild" in d) {
+    buildScore(el.closest(".dm"));
+  } else if (d.dmView) {
+    ui.view = d.dmView;
+    refreshWidgets(["matrix"]);
+  } else if (d.pick) {
+    const wrap = el.closest(".podium-wrap");
+    const flash = wrap.querySelector(".flash");
+    const s = solutions.find((x) => x.id === d.pick);
+    const flipped = flash.classList.contains("is-flipped");
+    flash.querySelector(flipped ? ".flash-a" : ".flash-b").innerHTML = flashCardHTML(s);
+    flash.classList.toggle("is-flipped");
+    wrap.querySelectorAll(".pcol").forEach((col) => col.classList.toggle("is-picked", col === el));
+  } else if ("replay" in d) {
+    revealPodium(el.closest(".podium-wrap"));
+  } else if (d.need) {
+    ui.need = d.need;
+    ui.feature = 0;
+    refreshWidgets(["why"]);
+  } else if (d.feature) {
+    ui.feature = Number(d.feature);
+    refreshWidgets(["why"]);
+  }
+});
+
+/* =========================================================
    4. STATIC PAGES
    ========================================================= */
 
@@ -599,6 +1067,7 @@ function renderStatic() {
     setClosed(0);
   }
   updateChrome();
+  requestAnimationFrame(playArrivals);
 }
 
 function addStaticLeaf(step, p) {
@@ -979,107 +1448,23 @@ spread.addEventListener("pointercancel", () => {
 });
 
 /* =========================================================
-   7. FOLD-OUT MAP
+   7. LOCATION MAP
+   Coastline: Natural Earth (public domain), via world-atlas.
+   Port Stewart 14.07°S 143.69°E. The glow marks the general
+   area of Lama Lama Country, not an exact boundary.
    ========================================================= */
 
-function mapSVG() {
-  const coast = "M0 0 H560 C600 60 560 120 610 170 C660 220 740 200 790 250 C850 310 820 380 880 430 C930 470 1010 450 1060 500 C1110 550 1180 540 1240 580 C1290 615 1300 660 1330 700 H0 Z";
-  return `<svg viewBox="0 0 1500 700" preserveAspectRatio="none" aria-hidden="true" focusable="false">
-    <defs>
-      <pattern id="sea-lines" width="14" height="14" patternUnits="userSpaceOnUse" patternTransform="rotate(28)">
-        <line x1="0" y1="0" x2="0" y2="14" stroke="#8fa39a" stroke-width="1" opacity=".35"/>
-      </pattern>
-    </defs>
-    <rect width="1500" height="700" fill="#e3ebe4"/>
-    <rect width="1500" height="700" fill="url(#sea-lines)"/>
-    <path d="${coast}" fill="#f5f0e1" stroke="#596d55" stroke-width="2.2"/>
-    <path d="M600 0 C640 70 600 120 650 165 C700 210 780 195 830 245 C890 305 860 370 920 420 C970 460 1050 440 1100 490 C1150 535 1220 525 1280 565 C1330 600 1345 650 1375 700"
-      fill="none" stroke="#7d968c" stroke-width="1.2" stroke-dasharray="6 7" opacity=".7"/>
-    <g fill="none" stroke="#a4ab8e" stroke-width="1.2" opacity=".85">
-      <path d="M70 470 C130 380 270 360 360 420 C430 470 400 560 300 590 C190 620 40 560 70 470 Z"/>
-      <path d="M130 480 C170 430 260 420 310 455 C350 485 330 535 270 552 C200 570 110 530 130 480 Z"/>
-      <path d="M60 150 C120 90 260 100 330 150 C390 195 350 270 260 285 C160 300 30 230 60 150 Z"/>
-      <path d="M520 560 C580 510 690 520 730 570 C760 610 720 660 640 670 C560 678 480 610 520 560 Z"/>
-    </g>
-    <g fill="none" stroke="#7f9fa4" stroke-width="2" stroke-linecap="round">
-      <path d="M110 700 C200 600 300 540 380 450 C450 370 520 300 600 178"/>
-      <path d="M380 450 C330 420 300 360 250 330"/>
-      <path d="M600 700 C700 620 780 560 850 470 C870 445 875 440 880 432"/>
-      <path d="M900 700 C960 640 1010 580 1060 503"/>
-    </g>
-    <path d="M40 250 C200 300 340 270 470 330 C600 390 700 520 960 610 C1060 645 1150 660 1240 650"
-      fill="none" stroke="#b8765c" stroke-width="1.6" stroke-dasharray="2 9" stroke-linecap="round"/>
-    <g fill="#f5f0e1" stroke="#596d55" stroke-width="1.6">
-      <path d="M1040 250 c22 -20 62 -12 68 10 c6 24 -32 34 -56 25 c-16 -6 -22 -22 -12 -35 Z"/>
-      <path d="M1185 335 c14 -12 40 -8 44 6 c4 16 -20 22 -36 16 c-12 -4 -16 -14 -8 -22 Z"/>
-      <path d="M930 140 c10 -8 28 -6 30 4 c3 11 -14 15 -25 11 c-8 -3 -10 -10 -5 -15 Z"/>
-    </g>
-    <g transform="translate(1385 150)" fill="none" stroke="#596d55" stroke-width="1.4">
-      <circle r="42" opacity=".5"/>
-      <path d="M0 -54 L9 0 L0 54 L-9 0 Z" fill="#596d55" fill-opacity=".15"/>
-      <path d="M0 -54 L9 0 L-9 0 Z" fill="#b8765c" stroke="none"/>
-      <text y="-62" text-anchor="middle" font-family="DM Mono, monospace" font-size="14" fill="#596d55" stroke="none">N</text>
-    </g>
-    <text x="1290" y="670" font-family="DM Mono, monospace" font-size="12" letter-spacing="2" fill="#596d55">NOT TO SCALE</text>
-  </svg>`;
+const LOCATION_MAP_SVG = "<svg class=\"loc-map\" viewBox=\"0 0 400 520\" role=\"img\" aria-labelledby=\"locmap-title-__U__ locmap-desc-__U__\"> <title id=\"locmap-title-__U__\">Location of Lama Lama Country</title> <desc id=\"locmap-desc-__U__\">Map of Cape York Peninsula, Queensland. Lama Lama Country is on the east coast around Port Stewart and Princess Charlotte Bay, about 590 kilometres north-north-west of Cairns.</desc> <defs> <pattern id=\"lm-sea-__U__\" width=\"9\" height=\"9\" patternUnits=\"userSpaceOnUse\" patternTransform=\"rotate(30)\"> <line x1=\"0\" y1=\"0\" x2=\"0\" y2=\"9\" stroke=\"#9db3aa\" stroke-width=\"0.8\" opacity=\".45\"/> </pattern> <radialGradient id=\"lm-glow-__U__\"> <stop offset=\"0\" stop-color=\"#b8765c\" stop-opacity=\".42\"/> <stop offset=\".65\" stop-color=\"#b8765c\" stop-opacity=\".16\"/> <stop offset=\"1\" stop-color=\"#b8765c\" stop-opacity=\"0\"/> </radialGradient> </defs> <rect width=\"400\" height=\"520\" fill=\"#e4ece6\"/> <rect width=\"400\" height=\"520\" fill=\"url(#lm-sea-__U__)\"/> <path d=\"M-5,506.0L-4.7,506.0L-3.7,505.2L-3.0,503.7L-1.2,498.3L-0.5,492.1L0.2,489.3L0.7,488.6L2.2,486.9L2.7,484.6L3.0,484.0L3.5,483.0L4.2,478.3L4.0,476.9L3.5,475.6L3.2,474.2L4.0,473.0L10.6,464.5L12.8,458.2L13.3,458.0L14.6,457.9L15.1,457.7L15.6,457.2L17.1,455.1L20.9,451.1L21.4,449.9L21.7,448.8L22.7,446.4L23.4,441.5L24.2,440.3L25.2,440.5L27.0,437.6L27.5,435.8L27.7,434.4L28.2,432.9L28.2,432.0L28.0,431.5L27.5,431.1L27.2,430.4L27.2,429.0L27.7,428.1L29.3,426.0L29.8,424.7L30.0,423.2L31.0,420.4L31.5,419.0L31.5,416.1L31.8,415.3L32.3,414.2L32.8,412.8L36.8,405.6L37.3,404.1L35.8,402.6L33.6,395.1L33.6,394.5L33.8,393.6L35.1,392.7L35.3,391.8L35.6,388.8L37.8,374.1L41.1,361.6L46.9,347.7L47.4,346.5L47.4,344.1L47.7,342.7L48.2,341.7L49.5,341.6L49.0,340.1L49.7,339.0L51.0,338.3L51.7,337.1L51.7,335.8L51.2,334.6L51.5,333.6L53.3,333.6L52.8,332.3L53.0,330.8L53.5,329.3L53.8,327.6L53.5,326.1L52.8,324.7L52.2,323.6L51.2,322.7L51.2,322.2L51.7,321.5L50.0,319.3L49.5,317.9L45.2,299.3L45.2,294.6L44.9,293.4L43.9,290.9L43.7,289.4L43.7,286.2L44.4,283.3L48.5,272.1L49.2,269.1L49.5,266.0L49.0,262.6L48.0,259.8L46.4,257.6L44.4,255.6L41.1,250.6L39.9,244.7L40.1,238.2L43.9,223.4L45.7,219.9L45.9,218.3L46.2,217.6L48.5,214.9L49.0,213.8L51.0,208.8L51.2,207.1L52.0,207.5L52.8,207.6L53.5,207.5L54.3,207.1L53.3,205.9L53.5,204.8L54.3,203.9L54.5,203.0L54.8,202.2L55.5,200.9L55.5,200.3L55.5,199.6L55.3,198.7L55.3,198.0L55.0,197.7L54.8,197.2L54.3,196.9L53.5,196.5L53.3,196.1L53.0,195.7L52.8,195.3L52.0,194.6L51.5,193.7L50.7,191.8L50.5,190.7L50.2,185.7L49.5,182.6L49.2,182.4L48.7,182.2L48.2,181.8L48.0,181.2L48.0,180.6L49.5,178.1L50.2,177.0L51.0,175.7L51.2,174.5L52.2,175.6L53.3,174.9L54.8,173.6L57.3,172.4L58.8,170.8L59.8,169.1L60.3,167.8L60.6,166.7L62.4,162.2L62.9,160.2L63.1,158.9L63.9,158.2L64.6,158.2L64.6,158.9L64.4,160.8L64.6,160.8L65.6,159.1L66.9,159.4L67.9,160.6L68.9,161.9L69.7,166.1L69.7,169.3L69.7,170.8L70.2,171.6L70.9,172.1L73.0,175.6L72.7,174.3L73.0,172.8L72.7,171.2L71.7,168.7L71.2,165.6L70.4,164.7L76.5,162.7L77.8,161.6L76.0,161.7L73.7,161.6L72.0,161.2L70.4,160.8L69.4,159.3L68.9,158.6L65.4,157.5L64.6,157.2L65.6,156.3L68.4,154.8L69.9,153.6L71.4,153.1L72.2,152.5L72.7,152.3L73.7,152.3L75.2,152.3L73.5,151.7L72.2,150.9L71.4,150.9L70.2,152.3L69.2,151.9L68.2,151.9L65.6,152.3L63.9,152.3L62.9,151.9L61.8,151.3L61.1,150.6L60.1,148.7L59.6,147.9L58.6,147.4L55.5,146.4L58.6,144.5L59.6,143.4L59.3,142.9L56.0,143.2L55.0,142.9L53.8,141.9L53.5,142.3L53.3,142.4L53.3,143.8L53.3,148.1L53.5,148.3L55.3,148.3L55.8,148.6L56.0,149.3L55.3,149.6L53.8,149.3L50.7,150.7L49.0,150.7L48.5,149.1L48.7,148.0L55.5,132.6L56.8,128.1L57.3,127.0L58.3,126.8L61.1,127.8L62.4,127.8L63.1,127.4L63.9,127.3L63.1,126.9L62.6,126.3L62.4,125.7L62.4,124.7L61.8,124.7L61.6,125.2L61.3,125.8L60.8,126.2L60.1,126.1L59.8,125.2L60.1,124.2L60.8,121.3L62.1,118.5L63.1,114.3L65.4,110.7L68.2,107.9L70.9,107.0L70.4,108.5L69.9,109.7L69.9,110.8L71.2,115.0L71.4,116.5L71.4,117.9L73.7,113.6L74.7,113.0L75.5,113.2L78.8,115.4L79.5,113.2L79.3,112.4L78.0,112.0L77.0,109.9L76.5,109.3L75.7,108.7L75.0,108.7L74.5,108.8L73.7,108.6L73.2,106.3L73.5,102.8L74.7,96.7L77.8,93.0L78.0,92.0L77.5,90.9L77.8,89.1L86.4,62.9L86.6,61.3L86.4,57.2L86.6,55.6L86.9,54.5L87.9,52.1L88.4,49.5L88.1,43.4L87.4,37.5L87.9,35.1L89.4,33.6L92.7,32.9L93.2,33.5L93.9,32.8L95.2,32.3L96.7,32.1L98.2,32.0L99.7,31.6L101.0,30.9L102.8,28.6L105.3,25.8L105.6,24.8L105.8,23.7L107.1,20.5L107.6,19.3L108.6,18.3L109.6,18.1L112.6,18.3L112.9,18.1L114.1,17.1L114.4,16.9L114.6,16.8L114.9,16.6L115.2,16.4L115.4,16.4L115.7,16.5L115.7,17.0L115.7,17.5L115.7,17.8L116.7,18.4L119.2,19.8L120.2,20.5L120.5,21.0L120.2,21.7L119.7,22.4L119.4,22.9L118.7,23.4L117.7,23.9L117.2,24.1L116.7,24.8L116.2,26.4L115.7,27.1L115.2,27.4L113.6,27.7L113.4,28.1L112.9,29.9L113.1,31.6L113.4,33.2L112.4,35.0L113.9,34.5L115.2,33.4L115.9,31.8L116.2,30.3L116.9,29.4L118.7,29.1L120.2,29.3L121.0,30.3L121.7,33.8L122.0,33.8L122.7,33.6L123.5,33.9L124.0,35.2L123.5,37.5L124.0,39.0L124.8,37.4L126.3,36.5L128.0,36.4L129.3,36.9L129.6,37.6L130.1,39.8L130.3,40.5L131.1,41.5L131.8,42.5L132.6,44.7L132.8,46.8L133.1,49.0L133.8,50.7L134.1,50.9L133.6,51.5L133.1,52.6L132.8,54.3L132.8,56.5L133.3,58.5L134.6,59.8L135.4,59.7L136.1,60.7L136.6,62.0L136.9,63.1L137.1,63.8L138.1,65.3L138.4,66.0L138.1,66.6L137.6,67.3L136.9,68.2L135.4,71.1L134.9,72.9L135.1,73.6L136.1,74.4L136.1,75.9L135.9,79.1L136.1,79.8L137.1,81.1L137.4,82.0L137.9,91.4L137.4,97.5L137.6,98.6L138.4,99.5L142.2,102.7L143.2,102.5L145.5,105.0L146.7,105.6L148.8,105.3L150.0,105.0L152.8,103.6L154.6,103.3L156.1,103.9L159.6,107.6L160.1,107.6L161.4,107.5L163.4,107.0L164.2,107.2L164.9,108.0L164.2,108.7L163.2,109.0L161.6,109.1L154.8,120.0L154.3,120.4L153.8,120.5L153.3,121.0L153.3,122.3L153.3,122.5L153.8,124.5L153.6,125.3L153.6,126.1L153.3,126.7L152.8,127.3L153.0,127.5L153.3,128.0L153.8,128.2L153.0,129.6L152.8,130.9L152.8,133.9L153.3,134.4L154.6,134.9L157.1,135.2L159.6,134.7L160.4,134.9L161.6,135.9L162.1,136.1L165.2,138.2L165.4,138.4L165.7,139.0L166.4,140.2L166.7,141.3L166.9,145.8L167.2,147.4L168.0,148.7L169.2,149.8L170.0,150.3L172.8,151.2L173.8,151.3L174.8,151.7L175.8,152.5L177.8,154.3L177.8,154.8L176.3,156.8L175.5,158.1L176.0,158.7L176.3,159.3L174.0,162.9L173.8,164.2L173.0,168.2L173.0,172.2L172.5,173.5L174.0,171.6L174.5,172.1L175.5,172.5L176.3,172.7L177.0,172.3L178.1,171.5L178.8,171.5L179.6,171.8L180.3,172.1L182.1,171.8L183.1,171.3L184.1,170.7L185.4,170.1L182.1,176.6L183.1,178.9L183.4,181.9L182.6,187.6L184.4,196.5L184.4,205.9L184.6,206.9L184.9,207.3L187.4,209.3L187.4,210.1L188.4,211.4L188.9,212.1L188.9,212.9L188.9,213.6L188.2,218.1L188.2,219.4L189.2,220.0L188.9,221.4L186.9,225.4L186.4,227.8L185.6,232.1L184.9,234.9L184.6,236.2L184.9,237.5L186.1,240.1L186.4,241.5L186.9,242.2L188.9,245.5L189.4,246.0L189.2,248.2L189.4,249.0L189.9,249.8L190.2,250.5L190.7,251.1L195.0,254.5L195.5,255.4L196.2,259.8L196.0,261.0L196.8,262.6L197.0,269.4L199.8,279.0L202.3,283.5L203.8,285.6L205.6,287.4L206.6,288.2L207.6,288.8L208.6,289.1L209.9,289.4L212.4,289.5L212.9,290.0L213.4,291.3L214.2,290.5L214.9,290.1L216.7,289.9L219.7,288.2L222.3,287.1L225.6,283.6L226.6,282.9L227.8,282.4L228.8,281.3L229.6,280.1L230.1,279.0L230.4,277.0L230.4,275.1L230.6,273.4L231.6,272.5L231.9,272.9L232.4,273.5L232.6,274.0L232.9,273.6L233.1,273.5L233.4,273.4L233.6,273.0L233.9,273.0L235.2,275.4L235.4,275.9L236.4,276.3L237.2,276.3L237.9,276.3L238.7,276.9L248.3,272.5L249.0,272.0L250.3,268.6L250.6,268.0L250.8,267.9L250.8,267.2L250.8,266.3L251.1,265.9L251.6,266.0L252.6,266.5L253.6,266.9L254.1,267.5L254.6,268.1L254.9,268.5L255.6,269.1L258.6,273.5L257.9,274.7L257.6,276.3L257.6,279.2L258.1,280.7L259.7,280.8L261.2,280.0L261.9,279.0L262.2,280.1L261.9,281.6L261.4,282.9L260.7,283.4L260.4,284.2L260.7,288.2L260.9,289.4L261.4,289.9L263.4,291.3L263.7,292.1L264.5,293.9L265.0,294.6L266.5,295.0L269.5,294.3L270.5,294.4L271.5,295.4L272.3,296.6L273.3,297.8L275.1,298.3L279.6,298.4L280.6,298.8L281.1,299.4L281.4,299.9L281.4,300.5L281.6,301.3L282.1,301.9L283.4,303.0L283.2,303.3L283.7,306.9L283.7,307.5L284.4,308.2L288.7,311.2L289.7,312.8L291.5,311.8L293.0,312.4L294.5,313.6L296.3,314.2L297.3,314.4L298.6,315.0L299.6,315.2L300.6,315.1L302.4,314.6L303.4,314.6L302.6,316.6L303.1,318.2L307.2,323.0L308.2,323.2L309.7,322.7L312.0,322.7L310.9,324.7L305.6,332.3L305.1,333.8L304.1,338.9L304.4,340.1L305.4,342.2L305.9,344.2L306.6,344.9L307.4,345.4L308.4,345.5L309.4,345.3L309.9,344.7L310.4,342.6L311.7,343.6L312.2,345.0L311.7,346.4L308.9,347.5L307.7,348.6L307.4,350.0L308.7,351.1L307.9,351.8L307.7,352.5L307.9,353.3L307.7,354.0L307.2,354.3L306.1,354.9L305.6,355.1L305.1,356.4L304.9,357.9L304.9,359.1L305.6,358.6L306.1,358.6L307.2,361.4L307.4,362.9L306.4,363.6L306.1,363.9L306.1,364.6L306.4,365.2L306.9,365.6L306.9,365.8L309.4,367.8L309.7,368.2L310.2,369.8L310.4,370.5L310.2,371.1L309.2,372.6L309.4,373.0L309.7,373.2L312.5,379.4L313.2,380.3L313.5,381.3L313.0,384.8L313.0,386.0L313.2,386.7L313.7,387.1L314.0,387.4L314.0,388.0L313.5,388.8L312.7,390.3L312.5,391.3L312.7,392.7L313.2,393.5L314.7,395.0L317.8,399.1L319.3,401.7L320.0,404.1L320.0,406.8L318.5,411.8L318.3,414.4L319.8,415.3L320.0,415.7L320.5,417.6L320.5,418.7L320.0,419.7L318.0,421.8L316.8,424.1L316.8,429.5L315.7,432.0L316.0,432.9L316.2,433.6L317.0,434.2L317.8,434.6L319.0,434.0L320.3,434.9L320.8,436.3L321.0,437.8L321.6,438.6L324.1,441.2L324.8,443.6L326.1,445.0L326.4,445.4L326.6,446.5L327.4,447.7L328.4,448.8L331.7,451.7L332.4,452.2L334.2,452.9L334.7,453.4L335.2,454.0L335.4,455.6L335.7,456.4L336.5,457.0L337.7,457.7L338.5,458.2L339.7,461.7L341.0,462.4L342.0,463.8L342.3,464.4L342.0,465.4L341.3,465.7L340.5,465.8L339.7,466.2L339.7,467.1L340.2,467.9L341.0,468.6L341.8,469.7L341.8,470.2L341.8,471.5L342.0,472.0L342.8,472.2L343.3,472.1L343.8,471.6L343.0,470.1L342.8,468.8L343.0,467.6L343.5,467.1L344.0,466.8L346.1,464.9L346.6,464.2L347.8,465.0L348.6,465.8L349.3,465.9L351.1,464.4L351.6,463.8L352.1,463.4L352.6,463.2L353.4,463.2L354.6,463.6L354.9,464.4L354.4,465.3L354.1,465.7L353.4,466.4L353.4,466.6L353.1,467.0L353.6,467.4L353.6,467.6L353.1,469.3L352.6,469.9L352.1,470.2L351.6,470.7L350.4,473.3L349.8,474.2L349.6,475.8L349.6,477.2L350.1,478.3L351.1,478.8L351.6,479.4L354.4,484.7L354.9,486.2L355.2,487.8L355.2,489.6L355.7,490.7L358.2,494.4L360.0,499.0L360.7,500.1L362.0,501.2L362.7,501.6L363.2,502.4L363.0,505.6L363.2,509.9L362.7,510.7L363.5,512.4L365.3,515.0L367.3,516.9L368.0,518.0L368.3,519.4L367.8,520.4L366.0,522.0L365.3,523.1L365.0,524.7L365.0,525L-5,525ZM94.9,14.8L96.7,16.5L97.0,17.4L97.0,18.3L96.7,18.6L96.5,18.6L95.7,18.4L94.9,18.4L93.4,19.0L92.4,19.3L91.7,19.6L90.9,20.5L90.4,21.5L90.4,22.2L87.9,21.2L87.4,20.7L86.6,19.4L85.6,18.0L85.1,16.2L85.3,13.9L85.6,13.5L85.8,13.3L86.1,13.0L87.4,12.9L87.6,12.7L87.9,12.4L88.4,11.9L89.6,11.2L89.9,11.2L89.9,10.8L90.6,9.5L92.2,9.9L93.2,11.6ZM95.4,8.6L97.7,8.2L99.5,9.3L100.0,11.0L98.5,12.4L96.5,13.0L94.9,11.9L94.4,10.1Z\" fill=\"#f6f2e4\" stroke=\"#596d55\" stroke-width=\"1.1\" stroke-linejoin=\"round\"/> <text x=\"14\" y=\"62\" class=\"lm-sea\">Gulf of</text><text x=\"14\" y=\"80\" class=\"lm-sea\">Carpentaria</text> <text x=\"292\" y=\"150\" class=\"lm-sea\">Coral Sea</text> <text x=\"268\" y=\"272\" class=\"lm-sea lm-small\">Princess</text> <text x=\"268\" y=\"287\" class=\"lm-sea lm-small\">Charlotte Bay</text> <text x=\"170\" y=\"494\" class=\"lm-region\" transform=\"rotate(-62 170 494)\">CAPE YORK PENINSULA</text> <clipPath id=\"lm-land-__U__\"><path d=\"M-5,506.0L-4.7,506.0L-3.7,505.2L-3.0,503.7L-1.2,498.3L-0.5,492.1L0.2,489.3L0.7,488.6L2.2,486.9L2.7,484.6L3.0,484.0L3.5,483.0L4.2,478.3L4.0,476.9L3.5,475.6L3.2,474.2L4.0,473.0L10.6,464.5L12.8,458.2L13.3,458.0L14.6,457.9L15.1,457.7L15.6,457.2L17.1,455.1L20.9,451.1L21.4,449.9L21.7,448.8L22.7,446.4L23.4,441.5L24.2,440.3L25.2,440.5L27.0,437.6L27.5,435.8L27.7,434.4L28.2,432.9L28.2,432.0L28.0,431.5L27.5,431.1L27.2,430.4L27.2,429.0L27.7,428.1L29.3,426.0L29.8,424.7L30.0,423.2L31.0,420.4L31.5,419.0L31.5,416.1L31.8,415.3L32.3,414.2L32.8,412.8L36.8,405.6L37.3,404.1L35.8,402.6L33.6,395.1L33.6,394.5L33.8,393.6L35.1,392.7L35.3,391.8L35.6,388.8L37.8,374.1L41.1,361.6L46.9,347.7L47.4,346.5L47.4,344.1L47.7,342.7L48.2,341.7L49.5,341.6L49.0,340.1L49.7,339.0L51.0,338.3L51.7,337.1L51.7,335.8L51.2,334.6L51.5,333.6L53.3,333.6L52.8,332.3L53.0,330.8L53.5,329.3L53.8,327.6L53.5,326.1L52.8,324.7L52.2,323.6L51.2,322.7L51.2,322.2L51.7,321.5L50.0,319.3L49.5,317.9L45.2,299.3L45.2,294.6L44.9,293.4L43.9,290.9L43.7,289.4L43.7,286.2L44.4,283.3L48.5,272.1L49.2,269.1L49.5,266.0L49.0,262.6L48.0,259.8L46.4,257.6L44.4,255.6L41.1,250.6L39.9,244.7L40.1,238.2L43.9,223.4L45.7,219.9L45.9,218.3L46.2,217.6L48.5,214.9L49.0,213.8L51.0,208.8L51.2,207.1L52.0,207.5L52.8,207.6L53.5,207.5L54.3,207.1L53.3,205.9L53.5,204.8L54.3,203.9L54.5,203.0L54.8,202.2L55.5,200.9L55.5,200.3L55.5,199.6L55.3,198.7L55.3,198.0L55.0,197.7L54.8,197.2L54.3,196.9L53.5,196.5L53.3,196.1L53.0,195.7L52.8,195.3L52.0,194.6L51.5,193.7L50.7,191.8L50.5,190.7L50.2,185.7L49.5,182.6L49.2,182.4L48.7,182.2L48.2,181.8L48.0,181.2L48.0,180.6L49.5,178.1L50.2,177.0L51.0,175.7L51.2,174.5L52.2,175.6L53.3,174.9L54.8,173.6L57.3,172.4L58.8,170.8L59.8,169.1L60.3,167.8L60.6,166.7L62.4,162.2L62.9,160.2L63.1,158.9L63.9,158.2L64.6,158.2L64.6,158.9L64.4,160.8L64.6,160.8L65.6,159.1L66.9,159.4L67.9,160.6L68.9,161.9L69.7,166.1L69.7,169.3L69.7,170.8L70.2,171.6L70.9,172.1L73.0,175.6L72.7,174.3L73.0,172.8L72.7,171.2L71.7,168.7L71.2,165.6L70.4,164.7L76.5,162.7L77.8,161.6L76.0,161.7L73.7,161.6L72.0,161.2L70.4,160.8L69.4,159.3L68.9,158.6L65.4,157.5L64.6,157.2L65.6,156.3L68.4,154.8L69.9,153.6L71.4,153.1L72.2,152.5L72.7,152.3L73.7,152.3L75.2,152.3L73.5,151.7L72.2,150.9L71.4,150.9L70.2,152.3L69.2,151.9L68.2,151.9L65.6,152.3L63.9,152.3L62.9,151.9L61.8,151.3L61.1,150.6L60.1,148.7L59.6,147.9L58.6,147.4L55.5,146.4L58.6,144.5L59.6,143.4L59.3,142.9L56.0,143.2L55.0,142.9L53.8,141.9L53.5,142.3L53.3,142.4L53.3,143.8L53.3,148.1L53.5,148.3L55.3,148.3L55.8,148.6L56.0,149.3L55.3,149.6L53.8,149.3L50.7,150.7L49.0,150.7L48.5,149.1L48.7,148.0L55.5,132.6L56.8,128.1L57.3,127.0L58.3,126.8L61.1,127.8L62.4,127.8L63.1,127.4L63.9,127.3L63.1,126.9L62.6,126.3L62.4,125.7L62.4,124.7L61.8,124.7L61.6,125.2L61.3,125.8L60.8,126.2L60.1,126.1L59.8,125.2L60.1,124.2L60.8,121.3L62.1,118.5L63.1,114.3L65.4,110.7L68.2,107.9L70.9,107.0L70.4,108.5L69.9,109.7L69.9,110.8L71.2,115.0L71.4,116.5L71.4,117.9L73.7,113.6L74.7,113.0L75.5,113.2L78.8,115.4L79.5,113.2L79.3,112.4L78.0,112.0L77.0,109.9L76.5,109.3L75.7,108.7L75.0,108.7L74.5,108.8L73.7,108.6L73.2,106.3L73.5,102.8L74.7,96.7L77.8,93.0L78.0,92.0L77.5,90.9L77.8,89.1L86.4,62.9L86.6,61.3L86.4,57.2L86.6,55.6L86.9,54.5L87.9,52.1L88.4,49.5L88.1,43.4L87.4,37.5L87.9,35.1L89.4,33.6L92.7,32.9L93.2,33.5L93.9,32.8L95.2,32.3L96.7,32.1L98.2,32.0L99.7,31.6L101.0,30.9L102.8,28.6L105.3,25.8L105.6,24.8L105.8,23.7L107.1,20.5L107.6,19.3L108.6,18.3L109.6,18.1L112.6,18.3L112.9,18.1L114.1,17.1L114.4,16.9L114.6,16.8L114.9,16.6L115.2,16.4L115.4,16.4L115.7,16.5L115.7,17.0L115.7,17.5L115.7,17.8L116.7,18.4L119.2,19.8L120.2,20.5L120.5,21.0L120.2,21.7L119.7,22.4L119.4,22.9L118.7,23.4L117.7,23.9L117.2,24.1L116.7,24.8L116.2,26.4L115.7,27.1L115.2,27.4L113.6,27.7L113.4,28.1L112.9,29.9L113.1,31.6L113.4,33.2L112.4,35.0L113.9,34.5L115.2,33.4L115.9,31.8L116.2,30.3L116.9,29.4L118.7,29.1L120.2,29.3L121.0,30.3L121.7,33.8L122.0,33.8L122.7,33.6L123.5,33.9L124.0,35.2L123.5,37.5L124.0,39.0L124.8,37.4L126.3,36.5L128.0,36.4L129.3,36.9L129.6,37.6L130.1,39.8L130.3,40.5L131.1,41.5L131.8,42.5L132.6,44.7L132.8,46.8L133.1,49.0L133.8,50.7L134.1,50.9L133.6,51.5L133.1,52.6L132.8,54.3L132.8,56.5L133.3,58.5L134.6,59.8L135.4,59.7L136.1,60.7L136.6,62.0L136.9,63.1L137.1,63.8L138.1,65.3L138.4,66.0L138.1,66.6L137.6,67.3L136.9,68.2L135.4,71.1L134.9,72.9L135.1,73.6L136.1,74.4L136.1,75.9L135.9,79.1L136.1,79.8L137.1,81.1L137.4,82.0L137.9,91.4L137.4,97.5L137.6,98.6L138.4,99.5L142.2,102.7L143.2,102.5L145.5,105.0L146.7,105.6L148.8,105.3L150.0,105.0L152.8,103.6L154.6,103.3L156.1,103.9L159.6,107.6L160.1,107.6L161.4,107.5L163.4,107.0L164.2,107.2L164.9,108.0L164.2,108.7L163.2,109.0L161.6,109.1L154.8,120.0L154.3,120.4L153.8,120.5L153.3,121.0L153.3,122.3L153.3,122.5L153.8,124.5L153.6,125.3L153.6,126.1L153.3,126.7L152.8,127.3L153.0,127.5L153.3,128.0L153.8,128.2L153.0,129.6L152.8,130.9L152.8,133.9L153.3,134.4L154.6,134.9L157.1,135.2L159.6,134.7L160.4,134.9L161.6,135.9L162.1,136.1L165.2,138.2L165.4,138.4L165.7,139.0L166.4,140.2L166.7,141.3L166.9,145.8L167.2,147.4L168.0,148.7L169.2,149.8L170.0,150.3L172.8,151.2L173.8,151.3L174.8,151.7L175.8,152.5L177.8,154.3L177.8,154.8L176.3,156.8L175.5,158.1L176.0,158.7L176.3,159.3L174.0,162.9L173.8,164.2L173.0,168.2L173.0,172.2L172.5,173.5L174.0,171.6L174.5,172.1L175.5,172.5L176.3,172.7L177.0,172.3L178.1,171.5L178.8,171.5L179.6,171.8L180.3,172.1L182.1,171.8L183.1,171.3L184.1,170.7L185.4,170.1L182.1,176.6L183.1,178.9L183.4,181.9L182.6,187.6L184.4,196.5L184.4,205.9L184.6,206.9L184.9,207.3L187.4,209.3L187.4,210.1L188.4,211.4L188.9,212.1L188.9,212.9L188.9,213.6L188.2,218.1L188.2,219.4L189.2,220.0L188.9,221.4L186.9,225.4L186.4,227.8L185.6,232.1L184.9,234.9L184.6,236.2L184.9,237.5L186.1,240.1L186.4,241.5L186.9,242.2L188.9,245.5L189.4,246.0L189.2,248.2L189.4,249.0L189.9,249.8L190.2,250.5L190.7,251.1L195.0,254.5L195.5,255.4L196.2,259.8L196.0,261.0L196.8,262.6L197.0,269.4L199.8,279.0L202.3,283.5L203.8,285.6L205.6,287.4L206.6,288.2L207.6,288.8L208.6,289.1L209.9,289.4L212.4,289.5L212.9,290.0L213.4,291.3L214.2,290.5L214.9,290.1L216.7,289.9L219.7,288.2L222.3,287.1L225.6,283.6L226.6,282.9L227.8,282.4L228.8,281.3L229.6,280.1L230.1,279.0L230.4,277.0L230.4,275.1L230.6,273.4L231.6,272.5L231.9,272.9L232.4,273.5L232.6,274.0L232.9,273.6L233.1,273.5L233.4,273.4L233.6,273.0L233.9,273.0L235.2,275.4L235.4,275.9L236.4,276.3L237.2,276.3L237.9,276.3L238.7,276.9L248.3,272.5L249.0,272.0L250.3,268.6L250.6,268.0L250.8,267.9L250.8,267.2L250.8,266.3L251.1,265.9L251.6,266.0L252.6,266.5L253.6,266.9L254.1,267.5L254.6,268.1L254.9,268.5L255.6,269.1L258.6,273.5L257.9,274.7L257.6,276.3L257.6,279.2L258.1,280.7L259.7,280.8L261.2,280.0L261.9,279.0L262.2,280.1L261.9,281.6L261.4,282.9L260.7,283.4L260.4,284.2L260.7,288.2L260.9,289.4L261.4,289.9L263.4,291.3L263.7,292.1L264.5,293.9L265.0,294.6L266.5,295.0L269.5,294.3L270.5,294.4L271.5,295.4L272.3,296.6L273.3,297.8L275.1,298.3L279.6,298.4L280.6,298.8L281.1,299.4L281.4,299.9L281.4,300.5L281.6,301.3L282.1,301.9L283.4,303.0L283.2,303.3L283.7,306.9L283.7,307.5L284.4,308.2L288.7,311.2L289.7,312.8L291.5,311.8L293.0,312.4L294.5,313.6L296.3,314.2L297.3,314.4L298.6,315.0L299.6,315.2L300.6,315.1L302.4,314.6L303.4,314.6L302.6,316.6L303.1,318.2L307.2,323.0L308.2,323.2L309.7,322.7L312.0,322.7L310.9,324.7L305.6,332.3L305.1,333.8L304.1,338.9L304.4,340.1L305.4,342.2L305.9,344.2L306.6,344.9L307.4,345.4L308.4,345.5L309.4,345.3L309.9,344.7L310.4,342.6L311.7,343.6L312.2,345.0L311.7,346.4L308.9,347.5L307.7,348.6L307.4,350.0L308.7,351.1L307.9,351.8L307.7,352.5L307.9,353.3L307.7,354.0L307.2,354.3L306.1,354.9L305.6,355.1L305.1,356.4L304.9,357.9L304.9,359.1L305.6,358.6L306.1,358.6L307.2,361.4L307.4,362.9L306.4,363.6L306.1,363.9L306.1,364.6L306.4,365.2L306.9,365.6L306.9,365.8L309.4,367.8L309.7,368.2L310.2,369.8L310.4,370.5L310.2,371.1L309.2,372.6L309.4,373.0L309.7,373.2L312.5,379.4L313.2,380.3L313.5,381.3L313.0,384.8L313.0,386.0L313.2,386.7L313.7,387.1L314.0,387.4L314.0,388.0L313.5,388.8L312.7,390.3L312.5,391.3L312.7,392.7L313.2,393.5L314.7,395.0L317.8,399.1L319.3,401.7L320.0,404.1L320.0,406.8L318.5,411.8L318.3,414.4L319.8,415.3L320.0,415.7L320.5,417.6L320.5,418.7L320.0,419.7L318.0,421.8L316.8,424.1L316.8,429.5L315.7,432.0L316.0,432.9L316.2,433.6L317.0,434.2L317.8,434.6L319.0,434.0L320.3,434.9L320.8,436.3L321.0,437.8L321.6,438.6L324.1,441.2L324.8,443.6L326.1,445.0L326.4,445.4L326.6,446.5L327.4,447.7L328.4,448.8L331.7,451.7L332.4,452.2L334.2,452.9L334.7,453.4L335.2,454.0L335.4,455.6L335.7,456.4L336.5,457.0L337.7,457.7L338.5,458.2L339.7,461.7L341.0,462.4L342.0,463.8L342.3,464.4L342.0,465.4L341.3,465.7L340.5,465.8L339.7,466.2L339.7,467.1L340.2,467.9L341.0,468.6L341.8,469.7L341.8,470.2L341.8,471.5L342.0,472.0L342.8,472.2L343.3,472.1L343.8,471.6L343.0,470.1L342.8,468.8L343.0,467.6L343.5,467.1L344.0,466.8L346.1,464.9L346.6,464.2L347.8,465.0L348.6,465.8L349.3,465.9L351.1,464.4L351.6,463.8L352.1,463.4L352.6,463.2L353.4,463.2L354.6,463.6L354.9,464.4L354.4,465.3L354.1,465.7L353.4,466.4L353.4,466.6L353.1,467.0L353.6,467.4L353.6,467.6L353.1,469.3L352.6,469.9L352.1,470.2L351.6,470.7L350.4,473.3L349.8,474.2L349.6,475.8L349.6,477.2L350.1,478.3L351.1,478.8L351.6,479.4L354.4,484.7L354.9,486.2L355.2,487.8L355.2,489.6L355.7,490.7L358.2,494.4L360.0,499.0L360.7,500.1L362.0,501.2L362.7,501.6L363.2,502.4L363.0,505.6L363.2,509.9L362.7,510.7L363.5,512.4L365.3,515.0L367.3,516.9L368.0,518.0L368.3,519.4L367.8,520.4L366.0,522.0L365.3,523.1L365.0,524.7L365.0,525L-5,525ZM94.9,14.8L96.7,16.5L97.0,17.4L97.0,18.3L96.7,18.6L96.5,18.6L95.7,18.4L94.9,18.4L93.4,19.0L92.4,19.3L91.7,19.6L90.9,20.5L90.4,21.5L90.4,22.2L87.9,21.2L87.4,20.7L86.6,19.4L85.6,18.0L85.1,16.2L85.3,13.9L85.6,13.5L85.8,13.3L86.1,13.0L87.4,12.9L87.6,12.7L87.9,12.4L88.4,11.9L89.6,11.2L89.9,11.2L89.9,10.8L90.6,9.5L92.2,9.9L93.2,11.6ZM95.4,8.6L97.7,8.2L99.5,9.3L100.0,11.0L98.5,12.4L96.5,13.0L94.9,11.9L94.4,10.1Z\"/></clipPath> <ellipse clip-path=\"url(#lm-land-__U__)\" cx=\"191.5\" cy=\"271.95\" rx=\"54\" ry=\"44\" fill=\"url(#lm-glow-__U__)\"/> <g class=\"lm-town\"> <circle cx=\"161.3\" cy=\"250.5\" r=\"2.6\"/><text x=\"155.3\" y=\"253.5\" text-anchor=\"end\">Coen</text> <circle cx=\"67.4\" cy=\"155.6\" r=\"2.6\"/><text x=\"74.4\" y=\"158.6\">Weipa</text> <circle cx=\"305.3\" cy=\"361.1\" r=\"2.6\"/><text x=\"298.3\" y=\"364.1\" text-anchor=\"end\">Cooktown</text> <circle cx=\"342.3\" cy=\"466.9\" r=\"2.6\"/><text x=\"335.3\" y=\"469.9\" text-anchor=\"end\">Cairns</text> </g> <g class=\"lm-pin\" transform=\"translate(195.5 259.2)\"> <path d=\"M0 0 C-3 -7 -10 -12 -10 -19 A10 10 0 1 1 10 -19 C10 -12 3 -7 0 0Z\" fill=\"#b8765c\" stroke=\"#faf8f0\" stroke-width=\"1.6\"/> <circle cy=\"-19\" r=\"3.6\" fill=\"#faf8f0\"/> </g> <g class=\"lm-label\"> <text x=\"209.5\" y=\"213.2\" class=\"lm-main\">Lama Lama</text> <text x=\"209.5\" y=\"235.2\" class=\"lm-main\">Country</text> <text x=\"209.5\" y=\"251.2\" class=\"lm-sub\">Port Stewart</text> </g> <g transform=\"translate(366 40)\" class=\"lm-north\"> <path d=\"M0 -16 L6 6 L0 2 L-6 6Z\" fill=\"#596d55\"/> <text y=\"20\" text-anchor=\"middle\">N</text> </g> <g transform=\"translate(308.9 498)\" class=\"lm-scale\"> <rect width=\"32.55\" height=\"4\" fill=\"#596d55\"/><rect x=\"32.55\" width=\"32.55\" height=\"4\" fill=\"#faf8f0\" stroke=\"#596d55\" stroke-width=\".8\"/> <text y=\"-5\">0</text><text x=\"65.1\" y=\"-6\" text-anchor=\"end\">100 km</text> </g> <g transform=\"translate(12 386)\" class=\"lm-inset\"> <rect x=\"-6\" y=\"-6\" width=\"142\" height=\"130\" rx=\"2\" fill=\"#faf8f0\" stroke=\"#d8d3c3\"/> <path d=\"M107.1,100.7L108.8,100.9L109.0,105.6L108.0,107.0L107.7,110.2L106.7,109.1L104.6,112L104.0,111.7L102.2,111.6L100.4,108.1L100.0,105.5L98.3,102.0L98.4,100.2L100.3,100.6L103.1,101.9L104.8,101.4ZM43.3,69.0L40.2,70.8L37.6,71.6L37.1,73.4L36.0,74.9L33.5,75.0L31.6,75.3L29.0,74.6L26.9,75.0L24.8,75.2L23.1,77.1L22.2,76.9L20.7,77.9L19.3,79.1L17.2,78.9L15.2,78.9L12.0,76.7L10.4,76.0L10.5,73.9L12.0,73.4L12.5,72.6L12.4,71.4L12.7,68.9L12.4,66.9L10.8,63.4L10.4,61.4L10.5,59.5L9.3,57.3L9.2,56.3L7.9,54.9L7.5,52.3L5.9,49.7L5.4,48.3L6.7,49.7L5.8,46.7L7.2,47.6L8.1,48.9L8.0,47.2L6.6,44.6L6.3,43.6L5.6,42.6L5.9,40.8L6.5,40.0L6.9,38.3L6.6,36.5L7.8,34.2L8.1,36.6L9.3,34.4L11.7,33.3L13.2,32.0L15.4,30.8L16.8,30.6L17.6,31.0L19.9,29.8L21.7,29.4L22.2,28.8L22.9,28.5L24.6,28.5L27.7,27.6L29.3,26.2L30.0,24.6L31.8,23.0L31.9,21.7L32.0,20.0L34.1,17.4L35.3,20.1L36.6,19.5L35.5,18.0L36.4,16.5L37.7,17.2L38.1,14.8L39.7,13.3L40.4,12.1L41.9,11.6L42.0,10.7L43.3,11.1L43.3,10.3L44.6,9.9L46.1,9.5L48.2,10.9L49.9,12.7L51.7,12.7L53.6,13.0L53.0,11.3L54.4,8.9L55.7,8.1L55.3,7.3L56.6,5.6L58.4,4.5L59.9,4.9L62.4,4.3L62.3,2.8L60.1,1.8L61.7,1.3L63.7,2.1L65.2,3.3L67.7,4.1L68.6,3.8L70.4,4.7L72.1,3.9L73.3,4.1L73.9,3.5L75.3,5.0L74.5,6.7L73.4,7.9L72.4,8.0L72.7,9.2L71.8,10.7L70.8,12.2L71.0,13.1L73.4,14.8L75.6,15.8L77.2,16.8L79.3,18.7L80.1,18.7L81.7,19.4L82.1,20.4L85.0,21.5L86.9,20.4L87.5,18.7L88.1,17.4L88.4,15.7L89.4,13.2L88.9,11.8L89.2,10.9L88.8,9.1L89.2,6.8L89.8,6.2L89.3,5.2L90.0,3.6L90.6,1.9L90.7,1.1L91.8,0L92.6,1.4L92.8,3.3L93.5,3.7L93.7,5.0L94.7,6.5L95.0,8.2L94.8,9.3L95.9,11.7L97.8,10.6L98.8,11.9L100.2,13.1L99.9,14.4L100.5,17.0L101.0,18.6L101.7,19.0L102.5,21.6L102.3,23.2L103.2,25.3L106.4,27.0L108.5,28.5L110.5,29.8L110.1,30.6L111.8,32.6L112.9,36.0L114.1,35.3L115.3,36.7L116.1,36.2L116.6,39.6L118.7,41.6L120.0,42.9L122.3,45.5L123.2,48.1L123.3,50.0L123.0,52.1L124.5,54.9L124.3,57.9L123.8,59.5L123.0,62.5L123.0,64.5L122.5,67.0L121.1,70.1L119.0,71.9L117.9,74.6L116.9,76.4L116.0,79.5L114.9,81.3L114.1,84.0L113.7,86.6L113.9,87.8L112.2,89.0L108.9,89.2L106.1,90.7L104.8,92.2L103.0,93.8L100.6,92.1L98.7,91.5L99.2,89.5L97.6,90.2L95.0,93.0L92.4,91.9L90.8,91.3L89.1,91.1L86.2,90.0L84.3,87.7L83.7,84.9L83.1,83.0L81.6,81.5L78.8,81.1L79.7,79.3L79.0,76.6L77.6,79.1L74.9,79.8L76.5,77.8L76.9,75.7L78.1,74.0L77.8,71.4L75.4,74.4L73.6,75.6L72.5,78.5L70.1,77.0L70.2,75.1L68.4,72.5L66.8,71.2L67.4,70.4L63.6,68.3L61.5,68.2L58.7,66.5L53.4,66.8L49.5,68.0L46.2,69.2Z\" fill=\"#e6e9dc\" stroke=\"#596d55\" stroke-width=\".7\"/> <polyline points=\"78.4,17.8 78.4,48 87.3,48 87.3,58 110.7,58 115.1,56.6 124.4,55.2\" fill=\"none\" stroke=\"#596d55\" stroke-width=\".6\" stroke-dasharray=\"2 2\"/> <rect x=\"87\" y=\"-0.5\" width=\"16.900000000000006\" height=\"21.7\" fill=\"rgba(184,118,92,.18)\" stroke=\"#b8765c\" stroke-width=\"1.2\"/> <text x=\"65\" y=\"121\" text-anchor=\"middle\">AUSTRALIA</text> <text x=\"96.4\" y=\"32\" class=\"lm-qld\">QLD</text> </g> </svg>";
+
+let mapCount = 0;
+
+function locationMapHTML() {
+  mapCount += 1;
+  return `<figure class="loc-figure">
+    ${LOCATION_MAP_SVG.replaceAll("__U__", String(mapCount))}
+    <figcaption>Lama Lama Country, east Cape York Peninsula, Queensland. Shaded area is approximate. Coastline: Natural Earth.</figcaption>
+  </figure>`;
 }
-
-function buildFoldout() {
-  const art = mapSVG();
-  foldout.querySelectorAll(".fold-art").forEach((el) => {
-    el.innerHTML = art;
-  });
-  foldout.querySelector(".pins").innerHTML = mapPins
-    .map(
-      (pin, i) => `<div class="pin${pin.x > 70 ? " pin-flip" : ""}" style="left:${pin.x}%;top:${pin.y}%">
-        <button type="button" class="pin-dot" aria-expanded="false" aria-label="Pin ${i + 1}: ${pin.title}"><span>${i + 1}</span></button>
-        <div class="pin-card"><span class="kicker">PIN ${pad(i + 1)}</span><strong>${pin.title}</strong><p>${pin.text}</p></div>
-      </div>`
-    )
-    .join("");
-}
-
-let foldTrigger = null;
-let foldTimer = 0;
-
-function openFoldout(trigger) {
-  clearTimeout(foldTimer);
-  foldTrigger = trigger;
-  foldout.hidden = false;
-  stage.inert = true;
-  void foldout.offsetWidth;
-  foldout.classList.add("is-open");
-  setTimeout(() => foldout.querySelector(".fold-close").focus({ preventScroll: true }), 60);
-}
-
-function closeFoldout() {
-  foldout.classList.remove("is-open");
-  foldout.querySelectorAll(".pin.is-open").forEach((pin) => pin.classList.remove("is-open"));
-  stage.inert = false;
-  foldTimer = setTimeout(() => {
-    foldout.hidden = true;
-  }, calmQuery.matches ? 0 : 1300);
-  if (foldTrigger && foldTrigger.isConnected) foldTrigger.focus({ preventScroll: true });
-}
-
-foldout.addEventListener("click", (event) => {
-  if (event.target.closest("[data-action='fold-map']")) {
-    closeFoldout();
-    return;
-  }
-  const dot = event.target.closest(".pin-dot");
-  if (!dot) return;
-  const pin = dot.parentElement;
-  const opening = !pin.classList.contains("is-open");
-  foldout.querySelectorAll(".pin").forEach((other) => {
-    other.classList.remove("is-open");
-    other.querySelector(".pin-dot").setAttribute("aria-expanded", "false");
-  });
-  if (opening) {
-    pin.classList.add("is-open");
-    dot.setAttribute("aria-expanded", "true");
-  }
-});
 
 /* =========================================================
    8. CONTROLS
@@ -1103,7 +1488,6 @@ spread.addEventListener("click", (event) => {
   else if (action === "close") goTo(lastView());
   else if (action === "reopen") goTo(lastView() - 1);
   else if (action === "to-cover") goTo(-1);
-  else if (action === "unfold-map") openFoldout(el);
 });
 
 prevBtn.addEventListener("click", () => step(-1));
@@ -1136,10 +1520,6 @@ pageSelect.addEventListener("change", () => {
 });
 
 document.addEventListener("keydown", (event) => {
-  if (!foldout.hidden) {
-    if (event.key === "Escape") closeFoldout();
-    return;
-  }
   if (event.altKey || event.ctrlKey || event.metaKey) return;
   if (event.target instanceof Element && event.target.closest("input, textarea, select")) return;
 
@@ -1179,6 +1559,5 @@ const fromHash = location.hash.match(/^#page-(\d+)$/);
 if (fromHash) view = viewOfPage(clamp(Number(fromHash[1]) - 1, 0, PAGES - 1));
 
 stage.dataset.mode = mode;
-buildFoldout();
 renderStatic();
 announce();
