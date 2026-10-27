@@ -702,11 +702,11 @@ button { color: inherit; font: inherit; }
   padding: 0;
   list-style: none;
   color: var(--soft);
-  font-size: clamp(11px, 2.2cqi, 13px);
-  line-height: 1.75;
+  font-size: clamp(10px, 1.9cqi, 11.5px);
+  line-height: 1.5;
 }
 .ref-list li {
-  margin: 0 0 10px;
+  margin: 0 0 6px;
   padding-left: 2.6em;
   text-indent: -2.6em;
 }
@@ -2480,3 +2480,7 @@ button { color: inherit; font: inherit; }
   .recs > li { grid-template-columns: 1fr; }
 }
 .credits a { color: var(--green); text-underline-offset: 2px; }
+
+/* figure titles: plain, not italic */
+.apa-fig figcaption i, .phone-fig figcaption i { font-style: normal; }
+.shot figcaption i { font-style: normal; }

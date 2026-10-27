@@ -27,12 +27,12 @@ Keep `index.html`, `styles.css`, `script.js` and the `images`, `docs`, `video` a
 | Pages | Content |
 | --- | --- |
 | 1–2 | Acknowledgement of Country, title page (group, members, tutorial, design area, website link) |
-| 3–4 | Executive Summary (EWB landing-page format) |
-| 5 | Contents |
-| 6 | 1. Project Details, with the fold-out location map |
-| 7–8 | 2. Background |
-| 9–11 | 3. Problem Description, user statement, Evaluation Criteria |
-| 12–16 | 4. Design Process & Decision-Making (Figures 1–4), decision matrix (Table 1), scores explained, selected solution, alignment with user need (Figures 5–6) |
+| 3 | Executive Summary (EWB landing-page format, one page, scrolls) |
+| 4 | Contents |
+| 5 | 1. Project Details, with the fold-out location map |
+| 6–7 | 2. Background |
+| 8–10 | 3. Problem Description, user statement, Evaluation Criteria |
+| 11–16 | 4. Design Process & Decision-Making (Figures 1–4 over two pages), decision matrix (Table 1), scores explained, selected solution, alignment with user need (Figures 5–6) |
 | 17 | 5. Proposed Solution (Table 2; one page, scrolls) |
 | 18–20 | 6. Prototyping and Testing (Table 3), demonstration video (Figure 7), QR code, APK |
 | 21 | 7. Implementation |

@@ -175,16 +175,7 @@ const pages = [
       { bullets: [
         "The Offline Ranger Prioritisation &amp; Support App achieves reliable weed record-keeping and prioritisation without internet access by saving every record on the phone first and uploading it to a central database when connectivity returns.",
         "The implementation is supported through a cross-platform Flutter application, a Supabase database, Ranger training, field testing and documentation",
-        "The design includes the following components: a mobile app with local storage, photo and GPS capture using the phone, a fixed list of the six priority species from the Weed Action Plan, a prioritisation dashboard with follow-up reminders, a Supabase database with role-based access, and public weed reports that are checked before they are listed."
-      ] }
-    ]
-  },
-  {
-    type: "section", kicker: "EXECUTIVE SUMMARY", cls: "exec", cont: true,
-    title: "Executive Summary (continued)",
-    heading: "",
-    blocks: [
-      { bullets: [
+        "The design includes the following components: a mobile app with local storage, photo and GPS capture using the phone, a fixed list of the six priority species from the Weed Action Plan, a prioritisation dashboard with follow-up reminders, a Supabase database with role-based access, and public weed reports that are checked before they are listed.",
         "Lama Lama Rangers use the app in the field to record sites, track treatments and plan return visits. Yintjingga Aboriginal Corporation administrators manage access and review reports, so the Rangers and the corporation stay in control of their information."
       ] },
       { h: "Key Considerations" },
@@ -297,7 +288,14 @@ const pages = [
       { p: "We used the user need and project constraints to guide ideation, screening and final selection." },
       { h: "Design Solutions Options" },
       { optfig: { n: 1, name: "Portable Spot-Spray Device", text: "A portable field device designed to apply herbicide directly to identified weed infestations. It supports targeted treatment while Rangers are working to check identified infestations.", src: "images/fig1-spot-spray.jpg", title: "Lama Lama Ranger using a portable spot-spray device", source: "OpenAI, 2026" } },
-      { optfig: { n: 2, name: "Offline Ranger Prioritisation & Support App", text: "An offline application that records weed locations, photos, treatment details, and follow-up information. It also organises infestation records to help Rangers monitor and prioritise sites.", src: "images/fig2-offline-app.jpg", title: "Lama Lama Ranger using an offline weed management application", source: "OpenAI, 2026" } },
+      { optfig: { n: 2, name: "Offline Ranger Prioritisation & Support App", text: "An offline application that records weed locations, photos, treatment details, and follow-up information. It also organises infestation records to help Rangers monitor and prioritise sites.", src: "images/fig2-offline-app.jpg", title: "Lama Lama Ranger using an offline weed management application", source: "OpenAI, 2026" } }
+    ]
+  },
+  {
+    type: "section", chapter: 4, cont: true,
+    title: "Design Solutions Options (continued)",
+    heading: "",
+    blocks: [
       { optfig: { n: 3, name: "AI Photo-Based Weed Identification", text: "An image-recognition tool that analyses photographs of weeds to assist with species identification. The identified weed information can then be used to support field recording and management.", src: "images/fig3-photo-id.jpg", title: "Lama Lama Ranger using AI photo-based weed identification", source: "OpenAI, 2026" } },
       { optfig: { n: 4, name: "Drone + Machine-Learning Aerial Survey", text: "A drone-based system that captures aerial imagery across larger areas of Country. Machine-learning analysis is used to identify and map possible weed infestations from the collected imagery.", src: "images/fig4-drone.jpg", title: "Drone detecting weed infestations", source: "OpenAI, 2026" } }
     ]
