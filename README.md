@@ -41,6 +41,7 @@ Keep `index.html`, `styles.css`, `script.js` and the `images`, `docs`, `video` a
 | 27–28 | 10. Recommendations (Figures 8–11) |
 | 29–30 | References (APA 7, hanging indent) |
 | 31–33 | Appendix 1 Team Meeting Charter (download), Appendix 2 Team Meeting Minutes (download), Appendix 3 Use of AI |
+| 34 | Teamwork Declaration (team member contributions) |
 
 Keep the total number of pages even. If it is odd, a plain end paper is added at the back.
 

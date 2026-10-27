@@ -28,7 +28,7 @@ const solutions = [
     name: "Offline Ranger Prioritisation & Support App",
     scores: { eff: 30, off: 19, rem: 18, mnt: 14, trn: 9 },
     reasons: {
-      eff: "Covers the whole need: finding, keeping track and deciding what comes first. It loses a few points only because Rangers still have to reach a site to spot weeds.",
+      eff: "Covers the whole need: finding, keeping track and deciding what comes first. It loses a few points only because Rangers still have to reach a site to spot weeds",
       off: "Built to work offline first; every record is saved on the phone and uploads later.",
       rem: "Runs on a phone that can be carried anywhere.",
       mnt: "Phones are easy to replace, and the app can be updated remotely.",
@@ -168,13 +168,13 @@ const pages = [
     blocks: [
       { p: "<b>Design Area(s):</b> Augmenting the Ranger Program (Project Opportunity 4.1 – Weed management innovation)" },
       { h: "Background" },
-      { p: "The Lama Lama Ranger Program, supported by the Yintjingga Aboriginal Corporation (YAC), manages the natural and cultural resources across Lama Lama Country’s vast and remote landscape. However, seasonal wet conditions cause impassable roads and river crossings, severely restricting ranger mobility and communication. Because invasive weeds threaten native vegetation, biodiversity, and cultural access, rangers currently utilize manual logging, GPS tagging, and tools like iTracker and drones, yet struggle with remote monitoring and limited connectivity. To address these challenges, there is a critical need for an offline-capable solution that respects Indigenous data sovereignty, operates locally with minimal complexity, and seamlessly integrates with existing ranger workflows and the regional Weed Action Plan." },
+      { p: "The Lama Lama Ranger Program, supported by the Yintjingga Aboriginal Corporation (YAC), manages the natural and cultural resources across Lama Lama Country’s vast and remote landscape. However, seasonal wet conditions cause impassable roads and river crossings, severely restricting ranger mobility and communication. Because invasive weeds threaten native vegetation, biodiversity, and cultural access, rangers currently utilize manual logging, GPS tagging, and tools like I-Tracker and drones, yet struggle with remote monitoring and limited connectivity. To address these challenges, there is a critical need for an offline-capable solution that respects Indigenous data sovereignty, operates locally with minimal complexity, and seamlessly integrates with existing ranger workflows and the regional Weed Action Plan." },
       { h: "Proposal Summary" },
       { p: "The project aims to address the difficulty Lama Lama Rangers have in reliably detecting, monitoring and prioritising weed infestations across large, remote and seasonally inaccessible Country through an offline-first mobile application. The app saves each infestation’s photo, GPS location, species and treatment on the Ranger’s phone and synchronises it when a connection returns. It flags sites due for follow-up and ranks them by urgency, so Rangers can decide where to work next while their existing practices and knowledge stay at the centre." },
       { h: "Overview of Design" },
       { bullets: [
         "The Offline Ranger Prioritisation &amp; Support App achieves reliable weed record-keeping and prioritisation without internet access by saving every record on the phone first and uploading it to a central database when connectivity returns.",
-        "The implementation is supported through a cross-platform Flutter application, a Supabase database, Ranger training, field testing and documentation",
+        "The implementation is supported through a cross-platform Flutter application, a Supabase database, Ranger training, field testing and documentation.",
         "The design includes the following components: a mobile app with local storage, photo and GPS capture using the phone, a fixed list of the six priority species from the Weed Action Plan, a prioritisation dashboard with follow-up reminders, a Supabase database with role-based access, and public weed reports that are checked before they are listed.",
         "Lama Lama Rangers use the app in the field to record sites, track treatments and plan return visits. Yintjingga Aboriginal Corporation administrators manage access and review reports, so the Rangers and the corporation stay in control of their information."
       ] },
@@ -187,7 +187,7 @@ const pages = [
         "<b>Assumptions and risks:</b> Rangers have compatible smartphones, and the six-species Weed Action Plan remains the priority list. Development is assumed to take 180 hours at A$100 per hour, so paying a developer for later changes could be costly."
       ] },
       { h: "Proposed Materials and Cost Summary" },
-      { p: "The estimated total cost is about A$18,630, which covers a one-off A$18,000 for in-house app development (180 hours at 100 / hour). Supabase database subscription (A$40 / Month) and A$150 per year for app distribution, along with existing smartphones and ranger training time" }
+      { p: "The estimated total cost is about A$18,630, which covers a one-off A$18,000 for outsourcing app development (180 hours at 100 per hour). Supabase database subscription is A$40 per month and A$150 per year for app distribution, along with existing smartphones and ranger training time." }
     ]
   },
 
@@ -210,9 +210,9 @@ const pages = [
     blocks: [
       { h: "Context" },
       { p: "The Lama Lama Ranger Program is jointly managed by the Queensland Government and the Indigenous community. Rangers are responsible for managing the natural and cultural resources across Lama Lama Country, including a wide range of land and sea management activities." },
-      { p: "Lama Lama Country is large and remote, with diverse terrain and ecosystems. That means our application should be tailored to local conditions, including offline capacity, easy to operate and maintain, and require minimal training." },
+      { p: "Lama Lama Country is large and remote, with diverse terrain and ecosystems. That means the application should be tailored to local conditions, including offline capacity, easy of operation and maintenance, and require minimal training." },
       { h: "Significance" },
-      { p: "Weed management is an important part of managing Lama Lama Country because invasive weeds impact environmental, economic and cultural values (Yintjingga Aboriginal Corporation, n.d., -b). Invasive weeds can threaten native vegetation, reduce biodiversity and affect access to important areas of Lama Lama country." }
+      { p: "Weed management is an important part of managing Lama Lama Country because invasive weeds impact environmental, economic and cultural values (Yintjingga Aboriginal Corporation, n.d.-b). Invasive weeds can threaten native vegetation, reduce biodiversity and affect access to important areas of Lama Lama Country." }
     ]
   },
   {
@@ -222,15 +222,15 @@ const pages = [
     blocks: [
       { p: "The current practice involves photographing, logging GPS location, applying herbicide, and returning after approximately one month to assess treatment effectiveness (Engineers Without Borders Australia, 2026b)." },
       { steps: [
-        ["Locate Area", "Identify and scout active weed infestation sites manually across country."],
+        ["Locate Area", "Identify and scout active weed infestation sites manually across Country."],
         ["Photo Log", "Photograph and identify weed species for treatment."],
         ["GPS Tagging", "Record and track the locations of weed infestations."],
         ["Weed Treatment", "Apply herbicides appropriate to weed species."],
         ["Reassessment", "Return to infestation sites approximately one month later to assess treatment effectiveness."]
       ] },
-      { p: "Besides, Rangers have integrated digital technologies such as Fulcrum, iTracker and drones with the knowledge passed by the Elders during this process (Engineers Without Borders Australia, 2026b)." },
+      { p: "Besides, Rangers have integrated digital technologies such as Fulcrum, I-Tracker and drones with the knowledge passed by the Elders during this process (Engineers Without Borders Australia, 2026b)." },
       { h: "Objectives" },
-      { p: "We hope to establish an application that can improve efficiency and reliability of weed management work across Lama Lama Country. It should support large-scale weed monitoring and help rangers track the effectiveness of treatment. It’s also important to keep costs low and respect indigenous community priorities and cultural requirements." }
+      { p: "Establishing an application that can improve efficiency and reliability of weed management work across Lama Lama Country. It should support large-scale weed monitoring and help rangers track the effectiveness of treatment. It is also important to keep costs low and respect Indigenous community priorities and cultural requirements." }
     ]
   },
 
@@ -244,7 +244,7 @@ const pages = [
       { p: "Four factors remain as key challenges:" },
       { folders: [
         ["Access", "During the wet season, roads and river crossings may be impassable (Engineers Without Borders Australia, 2026a). As a result, rangers’ mobility is highly restricted, therefore offline capability is crucial to sustain field operations when connectivity is unavailable."],
-        ["Monitoring", "Infestation on Lama Lama country is done under an extensive and vast landscape. Tracking their precise locations, treatment history, and subsequent regrowth remains a significant operational challenge. Monitoring is required to determine whether applied treatments are effective and to identify where further control actions are necessary (Weeds Australia, n.d.)."],
+        ["Monitoring", "Infestations on Lama Lama Country are spread across an extensive landscape. Tracking their precise locations, treatment history, and subsequent regrowth remains a significant operational challenge. Monitoring is required to determine whether applied treatments are effective and to identify where further control actions are necessary (Weeds Australia, n.d.)."],
         ["Decision-making", "As the ranger program is seasonal (Engineers Without Borders Australia, 2026b), this creates rangers with varying levels of field expertise. Some of the rangers may need help in identifying priority infestations and selecting appropriate actions. So, a decision-support system is important to improve consistency while complementing ranger knowledge."],
         ["Operations", "As stated in Engineers Without Borders Australia (2026c), any proposed solution must rely on standard spare parts instead of specialized components. This ensures local self-reliance, avoiding maintenance requirements from technicians from Cairns."]
       ] }
@@ -268,8 +268,8 @@ const pages = [
       { p: "Five criteria were selected to compare potential solutions:" },
       { criteria: [
         ["Effectiveness", 35, "The usefulness of the proposed design to enhance the weed management process."],
-        ["Rural access", 20, "The suitability of the solution for remote terrain and seasonal access constraints."],
-        ["Offline capability", 20, "The ability to record and access information without internet connectivity."],
+        ["Remote field operability", 20, "The suitability of the solution for remote terrain and seasonal access constraints."],
+        ["Offline usability", 20, "The ability to record and access information without internet connectivity."],
         ["Maintainability", 15, "Ease of maintenance, affordability, and long-term operation."],
         ["Minimal training", 10, "The simplicity and accessibility of the design to ensure rangers with varying levels of experience can operate it effectively."]
       ] },
@@ -284,7 +284,7 @@ const pages = [
     title: "Design Process & Decision-Making",
     tag: "DESIGN PROCESS",
     blocks: [
-      { p: "We wanted to focus on a solution that could operate within the practical conditions of Lama Lama Country. Particular attention for the proposed solution was given to offline capability, easy to use, field conditions, maintainability, and the ability to improve weed-management system." },
+      { p: "The focus is on finding a solution that could operate within the practical conditions of Lama Lama Country. Particular attention for the proposed solution was given to offline capability, ease of use, field conditions, maintainability, and the ability to improve weed-management system." },
       { p: "We used the user need and project constraints to guide ideation, screening and final selection." },
       { h: "Design Solutions Options" },
       { optfig: { n: 1, name: "Portable Spot-Spray Device", text: "A portable field device designed to apply herbicide directly to identified weed infestations. It supports targeted treatment while Rangers are working to check identified infestations.", src: "images/fig1-spot-spray.jpg", title: "Lama Lama Ranger using a portable spot-spray device", source: "OpenAI, 2026" } },
@@ -313,7 +313,7 @@ const pages = [
     blocks: [
       { h: "Overview" },
       { p: "The proposed solution is an Offline Ranger Prioritization & Support App designed to support the weed management and environmental monitoring activities carried out by Lama Lama Rangers (Yintjingga Aboriginal Corporation, n.d.-a). The app is not intended to replace their knowledge or create a separate weed management process. Instead, it brings infestation records, treatment information and follow-up activities into one workflow. The main goal is to make field records easier to access and help Rangers decide which locations need attention next, particularly when working across remote areas with unreliable internet access." },
-      { h: "How the App works" },
+      { h: "How the app works" },
       { p: "The process begins when a Ranger identifies a weed infestation during fieldwork. Using the app, the Ranger would create a site record containing a photograph, GPS location and weed species. The species could be selected from a fixed list based on the existing six-species Weed Action Plan (Yintjingga Aboriginal Corporation, n.d.-b). The Ranger could also enter the treatment date and describe the action taken. Keeping these details together means that the same record can be updated during later visits, rather than treating each observation as a separate entry." },
       { p: "This table summarises the main steps of the proposed application, from recording weed infestations to follow-up monitoring." },
       { table: {
@@ -329,7 +329,7 @@ const pages = [
       } },
       { p: "After a new site is recorded, its information would appear in a prioritisation dashboard. The dashboard is proposed to show infestation locations, treatment status and sites requiring follow-up. However, the app should support Ranger judgement, not make final treatment decisions automatically. Priority rules would need to be agreed with the Ranger team before implementation." },
       { p: "The next stage is follow-up monitoring. When a treatment is entered, the app would keep its date and use it to generate a reminder for reassessment. During a return visit, the Ranger could add new photographs, update the site’s condition and record whether further treatment is needed." },
-      { p: "<b>How it is built:</b> This application is built using flutter, which means that it can be run across multiple devices, such as mobile, web, and desktop services using only a single codebase (Google, n.d. -a). This application integrates Supabase as the backend and database provider for storing infestation records, treatment histories, and photographs. Supabase’s Pro plan starts from A$40/month (around A$480 annually), liable to exchange rates and additional usage charges (Supabase, n.d.). The application stores the field records locally, so rangers could still record the eradication or infestation process without internet connectivity. When internet connection is available, the application will synchronise the changes that are stored in the local storage with the central database. However, it is crucial to note that Flutter does not provide a dedicated local storage and synchronisation method, which is needed for offline functionality (Google, n.d. -b)." },
+      { p: "<b>How it is built:</b> This application is built using Flutter, which means that it can be run across multiple devices, such as mobile, web, and desktop services using only a single codebase (Google, n.d.-a). This application integrates Supabase as the backend and database provider for storing infestation records, treatment histories, and photographs. Supabase’s Pro plan starts from A$40/month (around A$480 annually), liable to exchange rates and additional usage charges (Supabase, n.d.). The application stores the field records locally, so rangers could still record the eradication or infestation process without internet connectivity. When internet connection is available, the application will synchronise the changes that are stored in the local storage with the central database. However, it is crucial to note that Flutter does not provide a dedicated local storage and synchronisation method, which is needed for offline functionality (Google, n.d.-b)." },
       { h: "Compatibility" },
       { p: "The proposed application aims to complement existing field data practices, including the I-Tracker tools previously used by Lama Lama Rangers (NESP Resilient Landscapes Hub, 2014). However, direct integration with I-Tracker has not yet been confirmed and would require further investigation." }
     ]
@@ -429,7 +429,7 @@ const pages = [
     ]
   },
   {
-    type: "section", chapter: 8, cont: true, toc: true,
+    type: "section", chapter: 8, cont: true,
     title: "Estimated Costs",
     heading: "",
     blocks: [
@@ -454,7 +454,7 @@ const pages = [
     title: "Other considerations",
     tag: "CONSIDERATIONS",
     blocks: [
-      { p: "The Lama Lama Rangers play an important role in protecting Country through weed management, wildlife conservation, and environmental monitoring (Yintjingga Aboriginal Corporation, n.d., -a). The team expects the community to welcome the app because it supports the Rangers’ existing work, uses their own priority species list, and does not change how they care for Country." },
+      { p: "The Lama Lama Rangers play an important role in protecting Country through weed management, wildlife conservation, and environmental monitoring (Yintjingga Aboriginal Corporation, n.d.-a). The team expects the community to welcome the app because it supports the Rangers’ existing work, uses their own priority species list, and does not change how they care for Country." },
       { consider: {
         name: "Social considerations",
         risk: "Rangers may feel the app replaces their knowledge, or that it monitors them, because each record carries the ranger’s name.",
@@ -525,7 +525,7 @@ const pages = [
     blocks: [
       { p: "The current desvign works well, however, it can be improved by integrating some extensive technologies." },
       { recs: { start: 1, items: [
-        { title: "AI Integration", text: "Instant invasive species recognition and smart prescriptive treatment guidelines via mobile ML.", fig: { n: 8, title: "Artificial intelligence concept image", src: "images/rec1-ai.png", source: "Adobe, n.d." } },
+        { title: "AI Integration", text: "An on-device image-recognition model could identify weed species from photos without internet access, addressing the connectivity limits of the stand-alone AI option (Option 3). Model updates could be delivered with regular app updates.", fig: { n: 8, title: "Artificial intelligence concept image", src: "images/rec1-ai.png", source: "Adobe, n.d." } },
         { title: "Connectivity &amp; Sync", text: "Advanced conflict resolution algorithms and Bluetooth P2P mesh sharing for deep remote camps.", fig: { n: 9, title: "Network Illustration", src: "images/rec2-network.png", source: "Coeo Solutions, n.d." } }
       ] } }
     ]
@@ -537,7 +537,7 @@ const pages = [
     blocks: [
       { recs: { start: 3, items: [
         { title: "Plug-ins", text: "High-resolution aerial drone integrated to the application to perform large area scanning and possibly treatment for specific weeds.", fig: { n: 10, title: "DJI Air 3 drone", src: "images/rec3-drone.png", source: "DJI, 2023" } },
-        { title: "Executive Dashboard", text: "Centralized web analytics for Yintjingga Corporation grant tracking and environmental reporting.", fig: { n: 11, title: "Executive Dashboard Illustration", src: "images/rec4-dashboard.png", source: "Augmented Tech Labs, 2025" } }
+        { title: "Executive Dashboard", text: "Centralized web analytics for Yintjingga Aboriginal Corporation grant tracking and environmental reporting.", fig: { n: 11, title: "Executive Dashboard Illustration", src: "images/rec4-dashboard.png", source: "Augmented Tech Labs, 2025" } }
       ] } }
     ]
   },
@@ -565,8 +565,23 @@ const pages = [
         ["AI was used to generate the template for the website", ["images/ai4.jpg"]],
         ["AI was used to ask how to generate executive summary", ["images/ai5.jpg"]],
         ["AI was used to verify the quality of executive summary", ["images/ai6.jpg"]],
-        ["AI was partially used to merge content among peers", ["images/ai7.jpg"]]
+        ["AI was partially used to merge content among peers", ["images/ai7.jpg"]],
+        ["AI was used to merge content to the website", ["images/ai8.jpg"]],
+        ["AI was used to generate pictures as visualization", ["images/ai9.jpg"]],
+        ["AI was used to check the content", ["images/ai10.jpg"]]
       ] }
+    ]
+  },
+  {
+    type: "declaration", title: "Teamwork Declaration",
+    heading: "Team member contributions to Assessment Task 3 Website",
+    rows: [
+      ["Edbert Wisely", "Developed the implementation plan, costings, anticipated considerations, and recommendations. Led the website design and contributed to integrating and presenting the report content on the website."],
+      ["Fatih Putranda Lesmana", "Developed the prototyping and testing section, including prototype functionality, testing results, and other considerations. Merged the members’ report sections into one file and contributed to reviewing the final report and website."],
+      ["Glenny Veneesha", "Developed the problem definition, scope, and project management sections. Contributed ideas for the website body and participated in reviewing the report and website content."],
+      ["Hangyeon Cho", "Developed the proposed solution section based on the team’s design process. Checked citations and references and contributed to reviewing the report’s consistency and accuracy."],
+      ["Karell Yusdygo", "Developed the design process and decision-making section, including the alternative solutions, evaluation criteria, and weighted decision matrix. Reviewed the members’ sections and helped coordinate team meetings."],
+      ["Yiming Bian", "Developed the introduction to Lama Lama Country and background research. Contributed ideas for the website interface and body and participated in reviewing the final report and website."]
     ]
   }
 ];
@@ -585,7 +600,6 @@ const REFERENCES = [
   `Engineers Without Borders Australia. (2026c). <i>Design considerations</i>. EWB Challenge. ${link("https://ewbchallenge.org/challenge/port-stewart-lama-lama/design-considerations/")}`,
   `Google. (n.d.-a). <i>Development</i>. Flutter. ${link("https://flutter.dev/development")}`,
   `Google. (n.d.-b). <i>Offline-first support</i>. Flutter Docs. ${link("https://docs.flutter.dev/app-architecture/design-patterns/offline-first")}`,
-  `Hołdaś, K., & Wierzbicka, D. (2024). Prototype tests with users – How to plan and conduct them? <i>Business Informatics</i>, <i>1–2</i>(67–68), 26–35. ${link("https://doi.org/10.15611/ie.2024.1-2.03")}`,
   `NESP Resilient Landscapes Hub. (2014, December 10). <i>Monitoring Lama Lama wetlands</i>. ${link("https://nesplandscapes.edu.au/2014/12/10/monitoring-lama-lama-wetlands/")}`,
   `OpenAI. (2026). <i>ChatGPT</i> (October 25 version) [Large language model]. ${link("https://chatgpt.com/")}`,
   `Second Talent. (2026, October). <i>Cost to hire freelance developers in Australia</i>. ${link("https://www.secondtalent.com/cost-to-hire/australia/")}`,
@@ -829,6 +843,16 @@ function bodyHTML(page, index) {
         <h2 class="page-title is-sub">${page.title}</h2>
 
         ${whyHTML()}
+      </div>`;
+
+    case "declaration":
+      return `<div class="section declaration">
+        <span class="kicker">TEAMWORK DECLARATION</span>
+        <h2 class="page-title is-sub">${page.heading}</h2>
+        <div class="table-scroll"><table class="decl-table">
+          <thead><tr><th scope="col">Group Member Name</th><th scope="col">Project Contributions</th></tr></thead>
+          <tbody>${page.rows.map(([n, c]) => `<tr><th scope="row">${n}</th><td>${c}</td></tr>`).join("")}</tbody>
+        </table></div>
       </div>`;
 
     case "appendix": {
