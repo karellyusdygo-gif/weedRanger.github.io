@@ -8,22 +8,39 @@ An interactive, book-style report for the EWB Challenge (team Power Ranger).
 
 ## Run it
 
-Keep `index.html`, `styles.css`, `script.js` and the `images` folder together, then open `index.html` in a browser. There is nothing to install or build. Fonts load from Google Fonts, with system-font fallbacks.
+Keep `index.html`, `styles.css`, `script.js` and the `images`, `docs`, `video` and `apk` folders together, then open `index.html` in a browser.
 
-## Page order (24 pages)
+## Files the team adds
+
+| Folder | File (exact name) | Where it appears |
+| --- | --- | --- |
+| `docs/` | `team_charter.docx` | Appendix 1, with a download button |
+| `docs/` | `team_meeting_minutes.docx` | Appendix 2, with a download button (included) |
+| `video/` | `demo_recording.mp4` | Prototype demonstration page (Figure 7), embedded player plus a download link |
+| `apk/` | `ranger_app.apk` | Prototype demonstration page, "Download APK (Android)" button |
+
+- **Video:** save it as MP4 with H.264 video and AAC audio so it plays in Chrome, Edge, Firefox, Safari and on phones. `video/README.txt` has the ffmpeg command. If the file is missing or can't be played, the page shows a short note and the download link instead of a broken player.
+- **Downloads:** download buttons work when the site is hosted, for example on GitHub Pages. Opened straight from the computer, some browsers open the file instead of saving it. There is nothing to install or build. Fonts load from Google Fonts, with system-font fallbacks.
+
+## Page order (34 pages)
 
 | Pages | Content |
 | --- | --- |
-| 1–3 | Acknowledgement of Country, title page, contents |
-| 4 | 1. Project Details, with the fold-out location map |
-| 5–6 | 2. Background |
-| 7–9 | 3. Problem Analysis, four key challenges (folders), Evaluation Criteria |
-| 10–14 | 4. Design Process & Decision-Making (all four options with Figures 1–4), weighted decision matrix, scores explained with the rating scale, selected solution, why it was chosen |
-| 15 | 5. Proposed Solution (one page, scrolls) |
-| 16–17 | 6. Prototyping and Testing, with a QR code and link to the live prototype |
-| 18–19 | 7. Social, Cultural, Environmental and Budget Considerations |
-| 20–22 | 8. Implementation, development hours and costing |
-| 23–24 | References (APA 7, hanging indent) |
+| 1–2 | Acknowledgement of Country, title page (group, members, tutorial, design area, website link) |
+| 3–4 | Executive Summary (EWB landing-page format) |
+| 5 | Contents |
+| 6 | 1. Project Details, with the fold-out location map |
+| 7–8 | 2. Background |
+| 9–11 | 3. Problem Description, user statement, Evaluation Criteria |
+| 12–16 | 4. Design Process & Decision-Making (Figures 1–4), decision matrix (Table 1), scores explained, selected solution, alignment with user need (Figures 5–6) |
+| 17 | 5. Proposed Solution (Table 2; one page, scrolls) |
+| 18–20 | 6. Prototyping and Testing (Table 3), demonstration video (Figure 7), QR code, APK |
+| 21 | 7. Implementation |
+| 22–23 | 8. Costing Analysis (Tables 4 and 5) |
+| 24–26 | 9. Other considerations (social, cultural, environmental, maintenance, budget) |
+| 27–28 | 10. Recommendations (Figures 8–11) |
+| 29–30 | References (APA 7, hanging indent) |
+| 31–33 | Appendix 1 Team Meeting Charter (download), Appendix 2 Team Meeting Minutes (download), Appendix 3 Use of AI |
 
 Keep the total number of pages even. If it is odd, a plain end paper is added at the back.
 

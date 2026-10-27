@@ -35,9 +35,9 @@ const solutions = [
       trn: "Uses normal phone steps: take a photo, choose the weed, save."
     },
     verdict: [
-      "Covers the whole need: finding, keeping track and deciding what comes first.",
-      "Built to work offline first; records upload later.",
-      "Phones are easy to replace, and the app can be updated remotely."
+      "Covers the whole need: finding, keeping track and deciding what comes first. It loses a few points only because Rangers still have to reach a site to spot weeds.",
+      "Built to work offline first; every record is saved on the phone and uploads later. Runs on a phone that can be carried anywhere.",
+      "Phones are easy to replace, and the app can be updated remotely. Uses normal phone steps: take a photo, choose the weed, save."
     ]
   },
   {
@@ -66,7 +66,7 @@ const solutions = [
       off: "The weed-guessing program usually needs internet or frequent updates.",
       rem: "Runs on a phone that can be carried anywhere.",
       mnt: "The weed-guessing ML model needs ongoing re-training.",
-      trn: "Uses normal phone steps, like the Offline App."
+      trn: "Uses normal phone steps, like Option 1."
     },
     verdict: [
       "Names weeds but gives no reminders or priorities.",
@@ -109,7 +109,7 @@ const appNeeds = [
     ]
   },
   {
-    key: "monitor", name: "Monitor", need: "Keep track of treated sites and go back on time",
+    key: "monitor", name: "Monitor", need: "Keep track of treated sites and go back in time",
     features: [
       { title: "Overdue re-checks first", screen: "sites", text: "Warns when a treated site is late for its check, so it is not forgotten.", tag: "Effectiveness 30/35", boxes: [[6.6, 34.6, 33.8, 38.3]] },
       { title: "Photo evidence", screen: "report", text: "Photos are kept to compare later visits.", tag: "Effectiveness 30/35", boxes: [[3.2, 37.2, 96.8, 63.4]] }
@@ -153,16 +153,61 @@ const pages = [
       "Karell Yusdygo",
       "Yiming Bian"
     ],
+    tutorial: "Tutorial 1 – Carina",
+    designArea: "Augmenting the Ranger Program",
+    opportunity: "Weed management innovation",
+    site: "https://weedranger.github.io/",
     forWhom: "EWB Challenge"
   },
+
+  /* ---- Executive Summary / Landing page (team's text, EWB format) ---- */
+  {
+    type: "section", kicker: "EXECUTIVE SUMMARY", cls: "exec", long: true,
+    title: "Executive Summary",
+    heading: "Power Ranger – Offline Ranger Prioritisation &amp; Support App",
+    blocks: [
+      { p: "<b>Design Area(s):</b> Augmenting the Ranger Program (Project Opportunity 4.1 – Weed management innovation)" },
+      { h: "Background" },
+      { p: "The Lama Lama Ranger Program, supported by the Yintjingga Aboriginal Corporation (YAC), manages the natural and cultural resources across Lama Lama Country’s vast and remote landscape. However, seasonal wet conditions cause impassable roads and river crossings, severely restricting ranger mobility and communication. Because invasive weeds threaten native vegetation, biodiversity, and cultural access, rangers currently utilize manual logging, GPS tagging, and tools like iTracker and drones, yet struggle with remote monitoring and limited connectivity. To address these challenges, there is a critical need for an offline-capable solution that respects Indigenous data sovereignty, operates locally with minimal complexity, and seamlessly integrates with existing ranger workflows and the regional Weed Action Plan." },
+      { h: "Proposal Summary" },
+      { p: "The project aims to address the difficulty Lama Lama Rangers have in reliably detecting, monitoring and prioritising weed infestations across large, remote and seasonally inaccessible Country through an offline-first mobile application. The app saves each infestation’s photo, GPS location, species and treatment on the Ranger’s phone and synchronises it when a connection returns. It flags sites due for follow-up and ranks them by urgency, so Rangers can decide where to work next while their existing practices and knowledge stay at the centre." },
+      { h: "Overview of Design" },
+      { bullets: [
+        "The Offline Ranger Prioritisation &amp; Support App achieves reliable weed record-keeping and prioritisation without internet access by saving every record on the phone first and uploading it to a central database when connectivity returns.",
+        "The implementation is supported through a cross-platform Flutter application, a Supabase database, Ranger training, field testing and documentation",
+        "The design includes the following components: a mobile app with local storage, photo and GPS capture using the phone, a fixed list of the six priority species from the Weed Action Plan, a prioritisation dashboard with follow-up reminders, a Supabase database with role-based access, and public weed reports that are checked before they are listed."
+      ] }
+    ]
+  },
+  {
+    type: "section", kicker: "EXECUTIVE SUMMARY", cls: "exec", cont: true,
+    title: "Executive Summary (continued)",
+    heading: "",
+    blocks: [
+      { bullets: [
+        "Lama Lama Rangers use the app in the field to record sites, track treatments and plan return visits. Yintjingga Aboriginal Corporation administrators manage access and review reports, so the Rangers and the corporation stay in control of their information."
+      ] },
+      { h: "Key Considerations" },
+      { bullets: [
+        "<b>Sourcing:</b> The design needs no specialist hardware and is intended to run on smartphones Rangers already use. The database is an external subscription service (Supabase), so it is sourced externally rather than locally.",
+        "<b>Maintenance:</b> The database subscription must be renewed, the app updated, user accounts managed and a support contact named. Phones are easy to replace and the app can be updated remotely.",
+        "<b>Implementation:</b> GPS and photo capture must be tested on the Rangers’ own devices, secure authentication and access controls configured, and synchronisation tested for failures and conflicting updates. Android devices use APK files, which avoids a Google Play registration fee. Apple Developer Program enrolment is needed only if iOS devices are used.",
+        "<b>Prototype results:</b> Initial prototype tests of offline logging, synchronisation, staying signed in, priority order and ease of use were reported as successful.",
+        "<b>Assumptions and risks:</b> Rangers have compatible smartphones, and the six-species Weed Action Plan remains the priority list. Development is assumed to take 180 hours at A$100 per hour, so paying a developer for later changes could be costly."
+      ] },
+      { h: "Proposed Materials and Cost Summary" },
+      { p: "The estimated total cost is about A$18,630, which covers a one-off A$18,000 for in-house app development (180 hours at 100 / hour). Supabase database subscription (A$40 / Month) and A$150 per year for app distribution, along with existing smartphones and ranger training time" }
+    ]
+  },
+
   { type: "contents", title: "Contents" },
   {
     type: "chapter", chapter: 1,
     title: "Project Details",
     details: {
       designArea: "4 - Augmenting the Ranger Program",
-      designOpportunities: "4.1 Weed management innovation",
-      importance: "Weed management is an important part of country management, which is closely connected to environmental, economic and cultural values. However, seasonal weather conditions also influence Ranger activities. Wet-season weather can restrict access to some areas, while funding only comes in dry-season, which causes the rangers to have a limited fund in wet-season. These local conditions create challenges for rangers’ activities, which we are working to resolve and protect this land."
+      designOpportunities: "4.1 - Weed management innovation",
+      importance: "The Lama Lama Ranger Program is supported by Yintjingga Aboriginal Corporation (YAC), which plays an important role in managing Country and connecting to environmental, economic and cultural values. However, seasonal conditions can create challenges for Ranger activities. During the wet season, roads and tracks may become difficult or impossible to use, limiting Rangers’ access to weed infestation sites. It highlights the need for more efficient and reliable approaches to weed mapping, monitoring and treatment."
     }
   },
 
@@ -176,21 +221,21 @@ const pages = [
       { p: "The Lama Lama Ranger Program is jointly managed by the Queensland Government and the Indigenous community. Rangers are responsible for managing the natural and cultural resources across Lama Lama Country, including a wide range of land and sea management activities." },
       { p: "Lama Lama Country is large and remote, with diverse terrain and ecosystems. That means our application should be tailored to local conditions, including offline capacity, easy to operate and maintain, and require minimal training." },
       { h: "Significance" },
-      { p: "Weed management is an important part of managing Lama Lama Country because invasive weeds impact environmental, economic and cultural values (Yintjingga Aboriginal Corporation [YAC], n.d.-b). Invasive weeds can threaten native vegetation, reduce biodiversity and affect access to important areas of Lama Lama country." }
+      { p: "Weed management is an important part of managing Lama Lama Country because invasive weeds impact environmental, economic and cultural values (Yintjingga Aboriginal Corporation, n.d., -b). Invasive weeds can threaten native vegetation, reduce biodiversity and affect access to important areas of Lama Lama country." }
     ]
   },
   {
     type: "section", chapter: 2, cont: true,
-    title: "Current solution and objectives",
-    heading: "Current solution",
+    title: "Current Solution and Objectives",
+    heading: "Current Solution",
     blocks: [
       { p: "The current practice involves photographing, logging GPS location, applying herbicide, and returning after approximately one month to assess treatment effectiveness (Engineers Without Borders Australia, 2026b)." },
       { steps: [
         ["Locate Area", "Identify and scout active weed infestation sites manually across country."],
-        ["Photo Log", "Identify and record weed species for eradication."],
-        ["GPS-Tag", "Mark and track the location of the weed infestation."],
-        ["Spray Weed", "Spray weed medication based on the identified weed species."],
-        ["Reassessment", "Comes back to infested area a month later to assess effectiveness."]
+        ["Photo Log", "Photograph and identify weed species for treatment."],
+        ["GPS Tagging", "Record and track the locations of weed infestations."],
+        ["Weed Treatment", "Apply herbicides appropriate to weed species."],
+        ["Reassessment", "Return to infestation sites approximately one month later to assess treatment effectiveness."]
       ] },
       { p: "Besides, Rangers have integrated digital technologies such as Fulcrum, iTracker and drones with the knowledge passed by the Elders during this process (Engineers Without Borders Australia, 2026b)." },
       { h: "Objectives" },
@@ -198,28 +243,30 @@ const pages = [
     ]
   },
 
-  /* ---- 3. Problem analysis ---- */
+  /* ---- 3. Problem description ---- */
   {
     type: "section", chapter: 3,
-    title: "Problem Analysis",
+    title: "Problem Description",
     tag: "THE CHALLENGE",
     blocks: [
       { p: "While physical removal is important, the true challenge of weed management on Lama Lama Country lies in reliably detecting, monitoring, and managing infestations across such vast, remote areas. Weeds Australia (n.d.) states that “an important part of any weed control program is monitoring the response of weeds and desirable vegetation” to evaluate whether management goals and control actions have actually worked." },
-      { p: "Therefore, one user statement is developed:" },
-      { quote: "Lama Lama Rangers need to reliably detect, monitor, and prioritise weed infestations across large, remote and seasonally inaccessible areas while integrating with their existing practices.", cite: "USER STATEMENT" }
-    ]
-  },
-  {
-    type: "section", chapter: 3, cont: true,
-    title: "Four key challenges",
-    heading: "Four key challenges",
-    blocks: [
+      { p: "Four factors remain as key challenges:" },
       { folders: [
         ["Access", "During the wet season, roads and river crossings may be impassable (Engineers Without Borders Australia, 2026a). As a result, rangers’ mobility is highly restricted, therefore offline capability is crucial to sustain field operations when connectivity is unavailable."],
         ["Monitoring", "Infestation on Lama Lama country is done under an extensive and vast landscape. Tracking their precise locations, treatment history, and subsequent regrowth remains a significant operational challenge. Monitoring is required to determine whether applied treatments are effective and to identify where further control actions are necessary (Weeds Australia, n.d.)."],
         ["Decision-making", "As the ranger program is seasonal (Engineers Without Borders Australia, 2026b), this creates rangers with varying levels of field expertise. Some of the rangers may need help in identifying priority infestations and selecting appropriate actions. So, a decision-support system is important to improve consistency while complementing ranger knowledge."],
         ["Operations", "As stated in Engineers Without Borders Australia (2026c), any proposed solution must rely on standard spare parts instead of specialized components. This ensures local self-reliance, avoiding maintenance requirements from technicians from Cairns."]
       ] }
+    ]
+  },
+  {
+    type: "section", chapter: 3, cont: true,
+    title: "User statement",
+    heading: "",
+    blocks: [
+      { p: "Given these challenges, an infestation record with offline capability is the ideal solution, as it could greatly benefit the Rangers even in the wet season, when access and connectivity are limited. Features such as a location tracker, photos and treatment history could help Rangers return to the treated site on time rather than relying on memory, complemented by a feature that could allow Rangers to see which sites need prioritisation. Moreover, a tool that can be maintained locally, with Rangers and YAC having control of their information, should also be part of the solution." },
+      { p: "Therefore, one user statement is developed:" },
+      { quote: "Lama Lama Rangers need to reliably detect, monitor, and prioritise weed infestations across large, remote and seasonally inaccessible areas while integrating with their existing practices.", cite: "USER STATEMENT" }
     ]
   },
   {
@@ -235,7 +282,8 @@ const pages = [
         ["Maintainability", 15, "Ease of maintenance, affordability, and long-term operation."],
         ["Minimal training", 10, "The simplicity and accessibility of the design to ensure rangers with varying levels of experience can operate it effectively."]
       ] },
-      { p: "These criteria and weightings were partially derived from the operational priorities and constraints outlined by Engineers Without Borders Australia (2026b)." }
+      { h: "Criteria Weightings" },
+      { p: "Effectiveness (35) carries the most weight because it is how the solution can meet the user need. Offline usability (20) and remote field operability (20) share the same weight of 20 because most of Lama Lama Country has little signal and infestations are spread over large, remote areas (Engineers Without Borders Australia, 2026b). Maintainability (15) follows because long supply chains make repairs slow, and minimal training (10) has the smallest weighting score because training can be planned during implementation. These criteria and weightings were partially derived from the operational priorities and constraints outlined by Engineers Without Borders Australia (2026b)." }
     ]
   },
 
@@ -247,7 +295,7 @@ const pages = [
     blocks: [
       { p: "We wanted to focus on a solution that could operate within the practical conditions of Lama Lama Country. Particular attention for the proposed solution was given to offline capability, easy to use, field conditions, maintainability, and the ability to improve weed-management system." },
       { p: "We used the user need and project constraints to guide ideation, screening and final selection." },
-      { h: "Design Solution Options" },
+      { h: "Design Solutions Options" },
       { optfig: { n: 1, name: "Portable Spot-Spray Device", text: "A portable field device designed to apply herbicide directly to identified weed infestations. It supports targeted treatment while Rangers are working to check identified infestations.", src: "images/fig1-spot-spray.jpg", title: "Lama Lama Ranger using a portable spot-spray device", source: "OpenAI, 2026" } },
       { optfig: { n: 2, name: "Offline Ranger Prioritisation & Support App", text: "An offline application that records weed locations, photos, treatment details, and follow-up information. It also organises infestation records to help Rangers monitor and prioritise sites.", src: "images/fig2-offline-app.jpg", title: "Lama Lama Ranger using an offline weed management application", source: "OpenAI, 2026" } },
       { optfig: { n: 3, name: "AI Photo-Based Weed Identification", text: "An image-recognition tool that analyses photographs of weeds to assist with species identification. The identified weed information can then be used to support field recording and management.", src: "images/fig3-photo-id.jpg", title: "Lama Lama Ranger using AI photo-based weed identification", source: "OpenAI, 2026" } },
@@ -257,7 +305,7 @@ const pages = [
   { type: "matrix", chapter: 4, cont: true, toc: true, title: "Weighted Decision Matrix" },
   { type: "matrix-detail", chapter: 4, cont: true, title: "Scores explained" },
   { type: "podium", chapter: 4, cont: true, toc: true, title: "The Selected Solution" },
-  { type: "why", chapter: 4, cont: true, toc: true, title: "Why is it chosen?" },
+  { type: "why", chapter: 4, cont: true, toc: true, title: "Alignment with user Need Criteria" },
 
   /* ---- 5. Proposed solution ---- */
   {
@@ -266,18 +314,26 @@ const pages = [
     tag: "PROPOSED SOLUTION",
     blocks: [
       { h: "Overview" },
-      { p: "The proposed solution is an Offline Ranger Prioritisation & Support App designed to support the weed management and environmental monitoring activities carried out by Lama Lama Rangers (YAC, n.d.-a). The app is not intended to replace their knowledge or create a separate weed management process. Instead, it brings infestation records, treatment information and follow-up activities into one workflow. The main goal is to make field records easier to access and help Rangers decide which locations need attention next, particularly when working across remote areas with unreliable internet access." },
-      { h: "How the app works" },
-      { flow: [
-        ["Record a site", "The process begins when a Ranger identifies a weed infestation during fieldwork. Using the app, the Ranger would create a site record containing a photograph, GPS location and weed species. The species could be selected from a fixed list based on the existing six-species Weed Action Plan (YAC, n.d.-b). The Ranger could also enter the treatment date and describe the action taken. Keeping these details together means that the same record can be updated during later visits, rather than treating each observation as a separate entry."],
-        ["Save offline, sync later", "An important part of the design is that information would be saved directly on the mobile device. Rangers could continue recording sites without needing an internet connection at the time of each visit. When connectivity becomes available, the app would synchronise locally stored records so that the Ranger team can review them. This offline-first approach is intended to support work during periods when communication services are unavailable (Engineers Without Borders Australia, 2026a). The exact storage and synchronisation methods would need to be confirmed during development."],
-        ["Prioritise on the dashboard", "After a new site is recorded, its information would appear in a prioritisation dashboard. The dashboard is proposed to show infestation locations, treatment status and sites requiring follow-up. Rather than simply displaying a list of weeds, it would help Rangers compare outstanding tasks and identify where attention may be most urgent. The existing Weed Action Plan would provide a starting point for organising species-related priorities. However, the app should support Ranger judgement, not make final treatment decisions automatically. Priority rules would need to be agreed with the Ranger team before implementation."],
-        ["Follow up and reassess", "The next stage is follow-up monitoring. When a treatment is entered, the app would keep its date and use it to generate a reminder for reassessment. During a return visit, the Ranger could add new photographs, update the site’s condition and record whether further treatment is needed. This would make it easier to compare a site’s condition before and after treatment and maintain a history of the work completed. It would also help the team identify sites that still require attention, rather than relying only on memory or separate records."]
-      ] },
-      { h: "Key features and future development" },
-      { p: "These functions are designed to work together as one practical system. Offline data capture supports recording in the field, while the priority-species list provides a consistent reference when reviewing infestations. The dashboard helps organise planned work, and follow-up reminders support repeated monitoring. The proposed design also aims to complement existing field data practices, including the I-Tracker tools previously used by Lama Lama Rangers (NESP Resilient Landscapes Hub, 2014). However, direct integration with these platforms has not yet been confirmed and would require further investigation. Drone and multispectral scanning technologies could also be considered in later development stages to support monitoring across larger areas. These technologies would be future extensions rather than requirements for the initial application." },
-      { h: "Meeting community needs" },
-      { p: "Overall, the proposed solution responds to the team’s design criteria without adding specialist equipment to everyday fieldwork. Offline recording addresses limited connectivity, while the dashboard and reminders aim to improve planning and monitoring. A straightforward mobile workflow may also reduce the training needed to use the system. Most importantly, decisions about priority species, treatment timing and information sharing should be made with the Lama Lama Rangers so that the app reflects their existing practices and local priorities. The proposed benefits will still need to be assessed through prototyping and field testing before the application can be implemented." }
+      { p: "The proposed solution is an Offline Ranger Prioritization & Support App designed to support the weed management and environmental monitoring activities carried out by Lama Lama Rangers (Yintjingga Aboriginal Corporation, n.d.-a). The app is not intended to replace their knowledge or create a separate weed management process. Instead, it brings infestation records, treatment information and follow-up activities into one workflow. The main goal is to make field records easier to access and help Rangers decide which locations need attention next, particularly when working across remote areas with unreliable internet access." },
+      { h: "How the App works" },
+      { p: "The process begins when a Ranger identifies a weed infestation during fieldwork. Using the app, the Ranger would create a site record containing a photograph, GPS location and weed species. The species could be selected from a fixed list based on the existing six-species Weed Action Plan (Yintjingga Aboriginal Corporation, n.d.-b). The Ranger could also enter the treatment date and describe the action taken. Keeping these details together means that the same record can be updated during later visits, rather than treating each observation as a separate entry." },
+      { p: "This table summarises the main steps of the proposed application, from recording weed infestations to follow-up monitoring." },
+      { table: {
+        n: 2, title: "Proposed Application Workflow", cls: "workflow",
+        head: ["Step", "Function", "Description"],
+        rows: [
+          ["1", "Weed Recording", "Record photographs, GPS locations and weed species."],
+          ["2", "Offline Storage", "Save field records locally without internet access."],
+          ["3", "Data synchronisation", "Synchronise saved records when connectivity becomes available."],
+          ["4", "Prioritisation", "Identify sites requiring attention through the dashboard."],
+          ["5", "Follow-up Monitoring", "Schedule reassessments and update treatment records."]
+        ]
+      } },
+      { p: "After a new site is recorded, its information would appear in a prioritisation dashboard. The dashboard is proposed to show infestation locations, treatment status and sites requiring follow-up. However, the app should support Ranger judgement, not make final treatment decisions automatically. Priority rules would need to be agreed with the Ranger team before implementation." },
+      { p: "The next stage is follow-up monitoring. When a treatment is entered, the app would keep its date and use it to generate a reminder for reassessment. During a return visit, the Ranger could add new photographs, update the site’s condition and record whether further treatment is needed." },
+      { p: "<b>How it is built:</b> This application is built using flutter, which means that it can be run across multiple devices, such as mobile, web, and desktop services using only a single codebase (Google, n.d. -a). This application integrates Supabase as the backend and database provider for storing infestation records, treatment histories, and photographs. Supabase’s Pro plan starts from A$40/month (around A$480 annually), liable to exchange rates and additional usage charges (Supabase, n.d.). The application stores the field records locally, so rangers could still record the eradication or infestation process without internet connectivity. When internet connection is available, the application will synchronise the changes that are stored in the local storage with the central database. However, it is crucial to note that Flutter does not provide a dedicated local storage and synchronisation method, which is needed for offline functionality (Google, n.d. -b)." },
+      { h: "Compatibility" },
+      { p: "The proposed application aims to complement existing field data practices, including the I-Tracker tools previously used by Lama Lama Rangers (NESP Resilient Landscapes Hub, 2014). However, direct integration with I-Tracker has not yet been confirmed and would require further investigation." }
     ]
   },
 
@@ -287,7 +343,7 @@ const pages = [
     title: "Prototyping and Testing",
     tag: "PROTOTYPE",
     blocks: [
-      { p: "Prototyping allows designers to evaluate proposed solutions, identify potential design problems, and refine their ideas before committing to full implementation (Camburn et al., 2017). For the Offline Ranger Prioritisation & Support App, that idea is simple: a ranger can record and prioritise weeds on Country with no phone signal, and the information is still there when the phone reconnects." },
+      { p: "Prototyping allows designers to evaluate proposed solutions, identify potential design problems, and refine their ideas before committing to full implementation (Camburn et al., 2017). For the Offline Ranger Prioritisation & Support App, that idea is simple. A ranger can record and prioritise weeds on Country with no phone signal, and the information is still there when the phone reconnects." },
       { h: "What was built" },
       { bullets: [
         "A working cross-platform prototype that can be opened in a browser or on a phone, built by the team using a hosted database (Supabase) and OpenStreetMap maps.",
@@ -298,8 +354,7 @@ const pages = [
           "a public report form, where any report is reviewed by an administrator before it is listed"
         ] },
         "The prototype uses the six priority species from the existing Weed Action Plan, so the screens match how rangers already work."
-      ] },
-      { tryapp: "https://edbertprounity.github.io/ranger-weed-app/" }
+      ] }
     ]
   },
   {
@@ -307,31 +362,101 @@ const pages = [
     title: "How it was tested",
     heading: "How it was tested",
     blocks: [
-      { p: "Each test below targets one of the needs in the user needs statement: working without coverage, keeping reliable records, and showing what to do first. Testing the prototype against specific user needs helps identify usability issues and determine whether the proposed solution meets its intended objectives (Hołdaś & Wierzbicka, 2024)." },
+      { p: "Each test below targets one of the needs in the user needs statement: working without coverage, keeping reliable records, and showing what to do first." },
       { table: {
-        n: 2, title: "Prototype Tests", cls: "tests", resultCol: 2,
+        n: 3, title: "Prototype tests", cls: "tests", resultCol: 2,
         head: ["Test", "Method", "Result"],
         rows: [
-          ["Offline logging", "Put the phone in flight mode, log a weed with a photo and location, then check it is saved on the device", "Active"],
+          ["Offline logging", "Put the phone in flight mode, log a weed with a photo and location, then check it is saved on the device", "Successful"],
           ["Sync", "Turn the connection back on and check the record reaches the database once, with nothing lost or duplicated", "Successful"],
           ["Stay signed in", "Sign in, lose the connection, close and reopen the app", "Successful"],
           ["Priority order", "Add overdue and untreated sites and check the most urgent appear first", "Successful"],
           ["Ease of use", "Ask a new user to log a weed without help, and note the steps taken and any errors", "Achieved"]
         ]
       } },
-      { todo: "Full results can be added to an appendix and referred to here." },
-      { h: "Next test" },
-      { p: "The most important test has not yet been done: a field trial with rangers in a no-coverage area, ideally in the wet season. Rangers’ feedback from that trial should decide what is changed before the app is rolled out more widely." }
+      { h: "Testing limitations" },
+      { p: "All tests were carried out locally by the team, simulating no coverage with flight mode, rather than by Rangers working on Country. The prototype has therefore not yet been tested in real field conditions, such as remote terrain, heat, long days without signal or the wet season." }
     ]
   },
 
-  /* ---- 7. Considerations ---- */
+  {
+    type: "section", chapter: 6, cont: true, toc: true,
+    title: "Prototype demonstration",
+    heading: "Prototype demonstration",
+    blocks: [
+      { video: { n: 7, src: "video/demo_recording.mp4", title: "Demonstration of the Offline Ranger Prioritisation & Support App prototype", source: "Recording by the authors",
+        aside: { tryapp: "https://edbertprounity.github.io/ranger-weed-app/", apk: "apk/ranger_app.apk" } } }
+    ]
+  },
+
+  /* ---- 7. Implementation ---- */
   {
     type: "section", chapter: 7,
-    title: "Social, Cultural, Environmental and Budget Considerations",
+    title: "Implementation",
+    tag: "IMPLEMENTATION",
+    blocks: [
+      { p: "<b>Deployment:</b> As the application works fully across different platforms, Rangers can simply install the application on their devices. Moreover, Lama Lama Rangers already record field data digitally with Fulcrum and I-Tracker (Engineers Without Borders Australia, 2026b; NESP Resilient Landscapes Hub, 2014), this means Ranger can easily adapt to this proposed technology. Training can therefore be short." },
+      { p: "However, several testing such as GPS recording and photo capture capability on their devices must be tested, allowing the application to work reliably. The rollout follows three phase approach:" },
+      { phases: [
+        ["Build and internal testing", "GPS, photos and sync must be tested on any device that will be used in-field."],
+        ["Ranger pilot trials in no-coverage zones", "A small group of Rangers uses this design during the dry season, which then their feedback will be consider for the next changes."],
+        ["Full wet season operational deployment", "All Rangers use the app, and it is reviewed at the end of the first wet season."]
+      ] },
+      { p: "<b>Application distribution:</b> This application will be distributed as APK files for Android devices to avoid Google Play registration fee. As for Apple devices, Apple Developer Program enrolment may be required for distribution, which costs A$150, liable to exchange rates and taxes. The final distribution method depends on the devices used by the Rangers and Apple’s applicable distribution requirement (Apple, n.d.)." }
+    ]
+  },
+
+  /* ---- 8. Costing analysis ---- */
+  {
+    type: "section", chapter: 8,
+    title: "Costing Analysis",
+    tag: "COSTING ANALYSIS",
+    blocks: [
+      { hours: {
+        n: 4, title: "Estimated Development Time",
+        rows: [
+          ["Requirement and architecture", 8, 12],
+          ["Flutter setup and UI", 15, 25],
+          ["Local database", 15, 25],
+          ["GPS and photo capture", 18, 28],
+          ["Offline synchronization", 25, 40],
+          ["Supabase backend and security", 18, 28],
+          ["Reminders and prioritization", 12, 20],
+          ["Testing and deployment", 20, 30],
+          ["Documentation and training", 6, 10],
+          ["Integration and contingency", 8, 12]
+        ],
+        note: "Estimated hours were generated with ChatGPT (OpenAI, 2026)."
+      } }
+    ]
+  },
+  {
+    type: "section", chapter: 8, cont: true, toc: true,
+    title: "Estimated Costs",
+    heading: "",
+    blocks: [
+      { p: "The hourly rate for a full stack developer is A$82 - A$131 (Second Talent, 2026). Given those data, this project is assumed to have taken 180 hours development time with A$100 hourly rate." },
+      { table: {
+        n: 5, title: "Estimated Costs", cls: "costs",
+        head: ["Cost item", "Cost basis", "Estimated Cost"],
+        rows: [
+          ["App development", "A$100/hour x 180 hours", "A$18,000"],
+          ["Supabase subscription", "A$40/month x 12 months", "A$480"],
+          ["App distribution", "A$150/year x 1 year", "A$150"]
+        ],
+        total: ["Total Cost", "", "A$18,630"],
+        note: "Development hours estimated with ChatGPT (OpenAI, 2026). Hourly rate from Second Talent (2026); database pricing from Supabase (n.d.), US$25 a month converted to about A$40; app distribution fee from Apple (n.d.)."
+      } }
+    ]
+  },
+
+  /* ---- 9. Other considerations ---- */
+  {
+    type: "section", chapter: 9,
+    title: "Other considerations",
     tag: "CONSIDERATIONS",
     blocks: [
-      { p: "The Lama Lama Rangers play an important role in protecting Country through weed management, wildlife conservation, and environmental monitoring (YAC, n.d.-a). The team expects the community to welcome the app because it supports the Rangers’ existing work, uses their own priority species list, and does not change how they care for Country." },
+      { p: "The Lama Lama Rangers play an important role in protecting Country through weed management, wildlife conservation, and environmental monitoring (Yintjingga Aboriginal Corporation, n.d., -a). The team expects the community to welcome the app because it supports the Rangers’ existing work, uses their own priority species list, and does not change how they care for Country." },
       { consider: {
         name: "Social considerations",
         risk: "Rangers may feel the app replaces their knowledge, or that it monitors them, because each record carries the ranger’s name.",
@@ -340,7 +465,14 @@ const pages = [
           "Yintjingga and the rangers agree, and write down, how records will and will not be used.",
           "Training is ranger-led and done in the field, so the skills stay in the community."
         ]
-      } },
+      } }
+    ]
+  },
+  {
+    type: "section", chapter: 9, cont: true,
+    title: "Cultural and environmental considerations",
+    heading: "",
+    blocks: [
       { consider: {
         name: "Cultural considerations",
         risk: "GPS records show exactly where rangers have been, which could expose culturally sensitive or restricted places. Information about Country could also end up outside community control.",
@@ -349,109 +481,107 @@ const pages = [
           "Role-based access limits who can view and edit records.",
           "Elders and Traditional Owners are consulted, and give consent, before any data is stored.",
           "Restricted areas can be left unrecorded, and the public report form never publishes locations.",
-          "Only Rangers approve any images, names or language used in the app."
+          "Only Rangers approves any images, names or language used in the app."
+        ]
+      } },
+      { consider: {
+        name: "Environmental considerations",
+        risk: "Inaccurate GPS location or outdated week records could lead rangers to wrong sites or overlook new infestation",
+        response: [
+          "Allow Rangers to verify and update weed locations during field visits",
+          "Include the date of each observation and reminders to recheck treated sites",
+          "Keep Rangers responsible for confirming infestation locations and deciding treatment priorities."
         ]
       } }
     ]
   },
   {
-    type: "section", chapter: 7, cont: true,
-    title: "Environmental and budget considerations",
+    type: "section", chapter: 9, cont: true,
+    title: "Maintenance and budget considerations",
     heading: "",
     blocks: [
       { consider: {
-        name: "Environmental considerations",
-        risk: "Inaccurate GPS location or outdated weed records could lead rangers to wrong sites or overlook new infestations.",
+        name: "Maintenance considerations",
+        risk: "Supabase subscription must be renewed over a certain period, without a clear delegation application may not work.",
         response: [
-          "Allow Rangers to verify and update weed locations during field visits.",
-          "Include the date of each observation and reminders to recheck treated sites.",
-          "Keep Rangers responsible for confirming infestation locations and deciding treatment priorities."
+          "Assign someone internally to manage subscription."
         ]
       } },
-      { h: "Budget considerations" },
-      { stats: [["A$40", "per month for the hosted database"], ["A$480", "per year"], ["A$2,400", "over five years"]] },
-      { p: "Development was done in-house at no cost to the client." },
-      { risks: [
-        ["Subscription lapses", "a named Yintjingga administrator renews it, and the data can be exported at any time."],
-        ["No support after the course ends", "the client names a support contact, such as a volunteer developer through Engineers Without Borders Australia, and plans a small budget for paid help if needed."],
-        ["Phones are not suitable", "check rangers’ devices before the pilot."],
-        ["Funding", "the cost is small enough to be met from the ranger program budget or existing government funds."]
-      ] }
+      { consider: {
+        name: "Budget considerations",
+        risk: "Future changes are costly as development was valued at A$18,000, so paying a developer later for new features could be expensive.",
+        response: [
+          "The source code and documentation are handed over, so any developer can pick it up.",
+          "The client builds one new feature at a time, in priority order, rather than commissioning everything at once.",
+          "Extra work is funded through grants or volunteer support."
+        ]
+      } }
     ]
   },
 
-  /* ---- 8. Implementation ---- */
+  /* ---- 10. Recommendations ---- */
   {
-    type: "section", chapter: 8,
-    title: "Implementation",
-    tag: "IMPLEMENTATION",
+    type: "section", chapter: 10,
+    title: "Recommendations",
+    tag: "RECOMMENDATIONS",
     blocks: [
-      { p: "Our proposed solution has an offline capability, meaning it can be accessed even when in remote areas with no internet connection and is a cross-platform application, developed using Flutter. By using Flutter to build the system, it can be run across multiple devices, such as mobile, web, and desktop services using only a single codebase (Google, n.d.-a)." },
-      { h: "Deployment" },
-      { p: "As the application works fully across different platforms, Rangers can simply install the application on their devices. However, features such as GPS recording and photo capture have to be tested on their devices, so the application works reliably." },
-      { h: "Offline functionality" },
-      { p: "The application stores the field records locally, so rangers could still record the eradication or infestation process without internet connectivity. When internet connection is available, the application will synchronise the changes that are stored in the local storage with the central database. However, it is crucial to note that Flutter does not provide a dedicated local storage and synchronisation method, which is needed for offline functionality (Google, n.d.-b)." }
+      { p: "The current desvign works well, however, it can be improved by integrating some extensive technologies." },
+      { recs: { start: 1, items: [
+        { title: "AI Integration", text: "Instant invasive species recognition and smart prescriptive treatment guidelines via mobile ML.", fig: { n: 8, title: "Artificial intelligence concept image", src: "images/rec1-ai.png", source: "Adobe, n.d." } },
+        { title: "Connectivity &amp; Sync", text: "Advanced conflict resolution algorithms and Bluetooth P2P mesh sharing for deep remote camps.", fig: { n: 9, title: "Network Illustration", src: "images/rec2-network.png", source: "Coeo Solutions, n.d." } }
+      ] } }
     ]
   },
   {
-    type: "section", chapter: 8, cont: true,
-    title: "Database, training and distribution",
+    type: "section", chapter: 10, cont: true,
+    title: "Recommendations (continued)",
     heading: "",
     blocks: [
-      { h: "Database integration" },
-      { p: "This application integrates Supabase as the backend and database provider for storing infestation records, treatment histories, and photographs. Supabase’s Pro plan starts from A$40/month (around A$480 annually), liable to exchange rates and additional usage charges (Supabase, n.d.). Before operational deployment, several aspects such as secure authentication, access controls, and reliable synchronisation must be configured. To ensure data safety and a single source of truth, the application should be tested for synchronisation failures and conflicting updates." },
-      { h: "Training and maintenance" },
-      { p: "Basic training for rangers, field testing, and documentation should be included in the implementation. Feedback from rangers should also be collected to improve the usability and reliability before it can be used for weed-management activities." },
-      { h: "Application distribution" },
-      { p: "This application will be distributed as APK files for Android devices to avoid the Google Play registration fee. As for Apple devices, Apple Developer Program enrolment may be required for distribution, which costs A$150, liable to exchange rates and taxes. The final distribution method depends on the devices used by the Rangers and Apple’s applicable distribution requirements (Apple, n.d.)." }
-    ]
-  },
-  {
-    type: "section", chapter: 8, cont: true, toc: true,
-    title: "Development hours and costing",
-    heading: "",
-    blocks: [
-      { hours: {
-        n: 3, title: "Estimated Development Hours",
-        rows: [
-          ["Requirement and architecture", 8, 12],
-          ["Flutter setup and UI", 15, 25],
-          ["Local database", 15, 25],
-          ["GPS and photo capture", 18, 28],
-          ["Offline synchronisation", 25, 40],
-          ["Supabase backend and security", 18, 28],
-          ["Reminders and prioritisation", 12, 20],
-          ["Testing and deployment", 20, 30],
-          ["Documentation and training", 6, 10],
-          ["Integration and contingency", 8, 12]
-        ],
-        note: "Estimated hours were generated with ChatGPT (OpenAI, 2026)."
-      } },
-      { p: "The hourly rate for a full stack developer is A$82–A$131 (Second Talent, 2026). Given those data, this project is assumed to have taken 180 hours development time with A$100 hourly rate." },
-      { table: {
-        n: 4, title: "Estimated Costs", cls: "costs",
-        head: ["Cost item", "Cost basis", "Estimated cost"],
-        rows: [
-          ["App development", "A$100/hour × 180 hours", "A$18,000"],
-          ["Supabase subscription", "A$40/month × 12 months", "A$480"],
-          ["App distribution", "A$150/year × 1 year", "A$150"]
-        ],
-        total: ["Total cost", "", "A$18,630"]
-      } }
+      { recs: { start: 3, items: [
+        { title: "Plug-ins", text: "High-resolution aerial drone integrated to the application to perform large area scanning and possibly treatment for specific weeds.", fig: { n: 10, title: "DJI Air 3 drone", src: "images/rec3-drone.png", source: "DJI, 2023" } },
+        { title: "Executive Dashboard", text: "Centralized web analytics for Yintjingga Corporation grant tracking and environmental reporting.", fig: { n: 11, title: "Executive Dashboard Illustration", src: "images/rec4-dashboard.png", source: "Augmented Tech Labs, 2025" } }
+      ] } }
     ]
   },
 
   /* ---- References: the list lives in REFERENCES below and flows across
      these two pages — page 1 takes as many as fit on screen ---- */
   { type: "references", part: 1, title: "References" },
-  { type: "references", part: 2, cont: true, title: "References (continued)" }
+  { type: "references", part: 2, cont: true, title: "References (continued)" },
+
+  /* ---- Appendices (supporting documents) ---- */
+  {
+    type: "appendix", n: 1, title: "Appendix 1: Team Meeting Charter",
+    file: "docs/team_charter.docx", label: "Team charter (Word document)"
+  },
+  {
+    type: "appendix", n: 2, title: "Appendix 2: Team Meeting Minutes",
+    file: "docs/team_meeting_minutes.docx", label: "Team meeting minutes (Word document)"
+  },
+  {
+    type: "appendix", n: 3, title: "Appendix 3: Use of AI",
+    blocks: [
+      { shots: [
+        ["AI was used to draft APA 7<sup>th</sup> style reference", ["images/ai1.jpg"]],
+        ["AI was used to estimate needed development hours", ["images/ai2.jpg", "images/ai3.jpg"]],
+        ["AI was used to generate the template for the website", ["images/ai4.jpg"]],
+        ["AI was used to ask how to generate executive summary", ["images/ai5.jpg"]],
+        ["AI was used to verify the quality of executive summary", ["images/ai6.jpg"]],
+        ["AI was partially used to merge content among peers", ["images/ai7.jpg"]]
+      ] }
+    ]
+  }
 ];
 
 
 /* References (APA 7), in alphabetical order. */
 const REFERENCES = [
+  `Adobe. (n.d.). [Artificial intelligence concept image] [Image]. Psychology Today. ${link("https://www.psychologytoday.com/us/blog/finding-purpose/202510/can-ai-really-think")}`,
   `Apple. (n.d.). <i>Apple Developer Program</i>. Apple Developer. ${link("https://developer.apple.com/programs/")}`,
+  `Augmented Tech Labs. (2025). [Executive dashboard examples for C-suite decision making] [Image]. ${link("https://www.augmentedtechlabs.com/blog/9-executive-dashboard-examples")}`,
   `Camburn, B., Viswanathan, V., Linsey, J., Anderson, D., Jensen, D., Crawford, R., Otto, K., & Wood, K. (2017). Design prototyping methods: State of the art in strategies, techniques, and guidelines. <i>Design Science, 3</i>, Article e13. ${link("https://doi.org/10.1017/dsj.2017.10")}`,
+  `Coeo Solutions. (n.d.). [Network and connectivity issues] [Image]. ${link("https://www.coeosolutions.com/network-and-connectivity-issues")}`,
+  `DJI. (2023). [DJI Air 3 drone] [Photograph]. UAV Coach. ${link("https://uavcoach.com/dji-air-3/")}`,
   `Engineers Without Borders Australia. (2026a). <i>About Tropical North Queensland</i>. EWB Challenge. ${link("https://ewbchallenge.org/challenge/port-stewart-lama-lama/about-tropical-north-queensland/")}`,
   `Engineers Without Borders Australia. (2026b). <i>Design Area 4 – Augmenting the ranger program: Weed management innovation</i>. EWB Challenge. ${link("https://ewbchallenge.org/challenge/port-stewart-lama-lama/design-area-4-augmenting-the-ranger-program/")}`,
   `Engineers Without Borders Australia. (2026c). <i>Design considerations</i>. EWB Challenge. ${link("https://ewbchallenge.org/challenge/port-stewart-lama-lama/design-considerations/")}`,
@@ -466,6 +596,7 @@ const REFERENCES = [
   `Yintjingga Aboriginal Corporation. (n.d.-a). <i>Lama Lama rangers</i>. Welcome to Lama Lama Country. ${link("https://www.lamalama.org.au/lama-lama-rangers/")}`,
   `Yintjingga Aboriginal Corporation. (n.d.-b). <i>Weed monitoring</i>. Welcome to Lama Lama Country. ${link("https://www.lamalama.org.au/weed-monitoring/")}`
 ];
+
 
 /* =========================================================
    2. SET-UP
@@ -608,11 +739,14 @@ function bodyHTML(page, index) {
       return `<div class="opening">
         <h1 class="opening-title">Weed Management<br>in Lama Lama Country:<br>A Design Proposal</h1>
         <span class="rule" aria-hidden="true"></span>
-        <p class="edition">AN EWB CHALLENGE DESIGN REPORT</p>
+        <p class="edition">ASSESSMENT TASK 3: TEAM WEBSITE <i>·</i> 31265 COMMUNICATION FOR IT PROFESSIONALS</p>
         <dl class="credits">
-          <div><dt>TEAM</dt><dd>${page.team}</dd></div>
+          <div><dt>GROUP NAME</dt><dd>${page.team}</dd></div>
           <div><dt>TEAM MEMBERS</dt><dd><ul class="team-members">${page.members.map((member) => `<li>${member}</li>`).join("")}</ul></dd></div>
-          <div><dt>FOR</dt><dd>${page.forWhom}</dd></div>
+          <div><dt>TUTORIAL NUMBER AND ZONE</dt><dd>${page.tutorial}</dd></div>
+          <div><dt>DESIGN AREA</dt><dd>${page.designArea}</dd></div>
+          <div><dt>PROJECT OPPORTUNITY</dt><dd>${page.opportunity}</dd></div>
+          <div><dt>LINK OF WEBSITE</dt><dd><a href="${page.site}" target="_blank" rel="noopener">${page.site.replace("https://", "").replace(/\/$/, "")}</a></dd></div>
         </dl>
       </div>`;
 
@@ -622,8 +756,8 @@ function bodyHTML(page, index) {
         <h2 class="page-title">Inside this field book</h2>
         <ol class="toc">${pages
           .map((entry, i) => {
-            if (i < 3 || entry.type === "blank" || (entry.cont && !entry.toc)) return "";
-            const mark = entry.cont ? "" : entry.chapter ? pad(entry.chapter) : "✳";
+            if (["ack", "title", "contents"].includes(entry.type) || entry.type === "blank" || (entry.cont && !entry.toc)) return "";
+            const mark = entry.type === "appendix" ? `A${entry.n}` : entry.cont ? "" : entry.chapter ? pad(entry.chapter) : "✳";
             return `<li><button type="button" data-goto="${i}">
               <span class="toc-label"><b>${mark}</b>${entry.title}</span>
               <span class="toc-dots" aria-hidden="true"></span>
@@ -631,6 +765,13 @@ function bodyHTML(page, index) {
             </button></li>`;
           })
           .join("")}</ol>
+        <div class="read-key" aria-label="How to read this book">
+          <span class="read-key-h">How to read this book</span>
+          <span><b aria-hidden="true">☝</b>Tap anything marked “Tap”</span>
+          <span><b aria-hidden="true">◢</b>Drag a page corner to turn</span>
+          <span><b aria-hidden="true">↓</b>Scroll long pages</span>
+          <span><b aria-hidden="true">← →</b>Arrow keys turn pages</span>
+        </div>
       </div>`;
 
     case "chapter":
@@ -641,7 +782,7 @@ function bodyHTML(page, index) {
           ${page.details ? `<div class="project-details">
             <ul class="design-details">
               <li>Design Area: ${page.details.designArea}</li>
-              <li>Design Opportunities: ${page.details.designOpportunities}</li>
+              <li>Project Opportunity: ${page.details.designOpportunities}</li>
             </ul>
             <section class="importance">
               <h3>Why is this important?</h3>
@@ -657,9 +798,9 @@ function bodyHTML(page, index) {
       </div>`;
 
     case "section":
-      return `<div class="section">
-        <span class="kicker">CHAPTER ${pad(page.chapter)} <i>·</i> ${page.cont ? "CONTINUED" : page.tag}</span>
-        ${page.heading === "" ? "" : `<h2 class="page-title${page.title.length > 40 ? " is-long" : page.cont ? " is-sub" : ""}">${page.heading || page.title}</h2>`}
+      return `<div class="section${page.cls ? " " + page.cls : ""}">
+        <span class="kicker">${page.kicker ? (page.cont ? page.kicker + " <i>·</i> CONTINUED" : page.kicker) : `CHAPTER ${pad(page.chapter)} <i>·</i> ${page.cont ? "CONTINUED" : page.tag}`}</span>
+        ${page.heading === "" ? "" : `<h2 class="page-title${page.long || page.title.length > 40 ? " is-long" : page.cont ? " is-sub" : ""}">${page.heading || page.title}</h2>`}
         ${page.blocks.map(blockHTML).join("")}
       </div>`;
 
@@ -680,8 +821,7 @@ function bodyHTML(page, index) {
     case "podium":
       return `<div class="section">
         <span class="kicker">CHAPTER ${pad(page.chapter)} <i>·</i> CONTINUED</span>
-        <h2 class="page-title is-sub">The selected solution is…</h2>
-        <p class="sec-p">The four options ranked by total score. Tap a column to see why each option was, or was not, chosen.</p>
+        <h2 class="page-title is-sub">The Selected Solution is…</h2>
         ${podiumHTML()}
       </div>`;
 
@@ -689,9 +829,37 @@ function bodyHTML(page, index) {
       return `<div class="section">
         <span class="kicker">CHAPTER ${pad(page.chapter)} <i>·</i> CONTINUED</span>
         <h2 class="page-title is-sub">${page.title}</h2>
-        <p class="sec-p">Pick a need. The phone shows the prototype screen and highlights the features that meet it.</p>
+
         ${whyHTML()}
       </div>`;
+
+    case "appendix": {
+      if (page.empty) {
+        return `<div class="section appendix">
+          <span class="kicker">SUPPORTING DOCUMENTS</span>
+          <h2 class="page-title is-sub">${page.title}</h2>
+          <div class="appendix-empty">${page.empty}</div>
+        </div>`;
+      }
+      if (page.blocks) {
+        return `<div class="section appendix">
+          <span class="kicker">SUPPORTING DOCUMENTS</span>
+          <h2 class="page-title is-sub">${page.title}</h2>
+          ${page.blocks.map(blockHTML).join("")}
+        </div>`;
+      }
+      const name = page.file.split("/").pop();
+      return `<div class="section appendix">
+        <span class="kicker">SUPPORTING DOCUMENTS</span>
+        <h2 class="page-title is-sub">${page.title}</h2>
+        ${page.lead ? `<p class="sec-p">${page.lead}</p>` : ""}
+        <a class="doc-card" href="${page.file}" download>
+          <span class="doc-ico" aria-hidden="true">DOCX</span>
+          <span class="doc-text"><b>${page.label}</b><span>${name}</span></span>
+          <span class="doc-dl"><span aria-hidden="true">↓</span> Download</span>
+        </a>
+      </div>`;
+    }
 
     case "references": {
       const n = refProbe ? REFERENCES.length : refSplit();
@@ -731,8 +899,9 @@ function blockHTML(b) {
       .join("")}</div>`;
   }
   if (b.folders) {
-    return `<div class="folders">${b.folders
-      .map(([name, text], i) => `<section class="folder${i === 0 ? " is-open" : ""}" style="--i:${i}">
+    return `<div class="tap-row"><p class="tap-hint"><span class="tap-ico" aria-hidden="true">☝</span>Tap a folder to open it</p><span class="tap-count" data-folder-count>1 of ${b.folders.length} opened</span></div>
+    <div class="folders" data-widget="folders">${b.folders
+      .map(([name, text], i) => `<section class="folder${i === 0 ? " is-open is-seen" : ""}" style="--i:${i}">
         <button type="button" class="folder-tab" data-folder aria-expanded="${i === 0}">
           <span class="folder-no">${pad(i + 1)}</span><span class="folder-name">${name}</span>
         </button>
@@ -749,8 +918,11 @@ function blockHTML(b) {
       <span class="try-qr">${QR_SVG}</span>
       <div class="try-text">
         <h4><span class="kicker">TRY THE PROTOTYPE</span>Ranger App</h4>
-        <p>Scan with a phone and add it to the home screen, or open it in your browser.</p>
-        <a class="try-btn" href="${b.tryapp}" target="_blank" rel="noopener">Open the prototype <span aria-hidden="true">↗</span></a>
+        <p>Scan with a phone and add it to the home screen, or open it in your browser. Android users can also install the app file.</p>
+        <span class="try-actions">
+          <a class="try-btn" href="${b.tryapp}" target="_blank" rel="noopener">Open the prototype <span aria-hidden="true">↗</span></a>
+          ${b.apk ? `<a class="try-btn is-alt" href="${b.apk}" download>Download APK (Android) <span aria-hidden="true">↓</span></a>` : ""}
+        </span>
       </div>
     </div>`;
   }
@@ -816,6 +988,45 @@ function blockHTML(b) {
     const item = (x) => (typeof x === "string" ? `<li>${x}</li>` : `<li>${x.t}<ul>${x.sub.map((s) => `<li>${s}</li>`).join("")}</ul></li>`);
     return `<ul class="bullets">${b.bullets.map(item).join("")}</ul>`;
   }
+  if (b.recs) {
+    const r = b.recs;
+    return `<ol class="recs" start="${r.start}">${r.items
+      .map((it, i) => `<li>
+        <p class="rec-text"><span class="rec-no">${r.start + i}</span><span><b>${it.title}:</b> <i>${it.text}</i></span></p>
+        <figure class="apa-fig rec-fig">
+          <figcaption><b>Figure ${it.fig.n}</b><i>${it.fig.title}</i></figcaption>
+          <img src="${it.fig.src}" alt="${it.fig.title}" loading="lazy" decoding="async">
+          <span class="fig-src">(${it.fig.source})</span>
+        </figure>
+      </li>`)
+      .join("")}</ol>`;
+  }
+  if (b.minutes) {
+    const m = b.minutes;
+    const actions = (rows) => `<div class="table-scroll"><table class="min-actions">
+        <thead><tr><th scope="col">Action Item</th><th scope="col">Responsible Person</th><th scope="col">Due Date</th></tr></thead>
+        <tbody>${rows.map(([a, p, d]) => `<tr><td>${a}</td><td>${p}</td><td>${d}</td></tr>`).join("")}</tbody>
+      </table></div>`;
+    return `<section class="minutes">
+      <h3 class="sec-h">${m.title}</h3>
+      <p class="min-len">${m.length}</p>
+      <dl class="min-info">${m.info.map(([k, v]) => `<div><dt>${k}</dt><dd>${v}</dd></div>`).join("")}</dl>
+      ${m.caption ? `<p class="apa-note">${m.caption}</p>` : ""}
+      <h4 class="min-h">Agenda</h4>
+      <ul class="bullets">${m.agenda.map((a) => `<li>${a}</li>`).join("")}</ul>
+      ${m.actionsTitle ? `<h4 class="min-h">${m.actionsTitle}</h4>` : ""}
+      ${actions(m.actions)}
+      ${m.other ? `<h4 class="min-h">Other items</h4><ul class="bullets">${m.other.map((a) => `<li>${a}</li>`).join("")}</ul>` : ""}
+    </section>`;
+  }
+  if (b.shots) {
+    return `<div class="shots">${b.shots
+      .map(([cap, srcs]) => `<figure class="shot">
+        <figcaption><i>${cap}</i></figcaption>
+        <span class="shot-imgs">${srcs.map((src) => `<img src="${src}" alt="Screenshot: ${cap.replace(/<[^>]+>/g, "")}" loading="lazy" decoding="async">`).join("")}</span>
+      </figure>`)
+      .join("")}</div>`;
+  }
   if (b.table) {
     const t = b.table;
     const cell = (v, i) => (i === t.resultCol ? `<td><span class="result">${v}</span></td>` : `<td>${v}</td>`);
@@ -837,7 +1048,7 @@ function blockHTML(b) {
     return `<div class="apa-table hours">
       <p class="apa-label"><b>Table ${h.n}</b><i>${h.title}</i></p>
       <div class="table-scroll"><table>
-        <thead><tr><th scope="col">Development task</th><th scope="col">Estimated hours</th><th scope="col" class="hr-bar-h"><span class="visually-hidden">Range</span></th></tr></thead>
+        <thead><tr><th scope="col">Development Task</th><th scope="col">Estimated Hours</th><th scope="col" class="hr-bar-h"><span class="visually-hidden">Range</span></th></tr></thead>
         <tbody>${h.rows
           .map(([task, a, z]) => `<tr><th scope="row">${task}</th><td>${a}–${z}</td>
             <td class="hr-bar" aria-hidden="true"><span><i style="left:${(a / max) * 100}%;width:${((z - a) / max) * 100}%"></i><em style="width:${(a / max) * 100}%"></em></span></td></tr>`)
@@ -859,7 +1070,39 @@ function blockHTML(b) {
     return `<div class="stats">${b.stats.map(([v, l]) => `<div class="stat"><b>${v}</b><span>${l}</span></div>`).join("")}</div>`;
   }
   if (b.risks) {
-    return `<p class="risks-h">Risks and responses</p><ul class="risks">${b.risks.map(([r, a]) => `<li><b>${r}:</b> ${a}</li>`).join("")}</ul>`;
+    return `<p class="risks-h">Risks and responses</p><ul class="risks">${b.risks
+      .map(([r, a, resp]) => `<li><b>${r}:</b> ${a}${resp ? `<span class="r-resp">Response</span><ul>${resp.map((x) => `<li>${x}</li>`).join("")}</ul>` : ""}</li>`)
+      .join("")}</ul>`;
+  }
+  if (b.phases) {
+    return `<ol class="phases">${b.phases
+      .map((t, i) => {
+        const [name, desc] = Array.isArray(t) ? t : [t, ""];
+        return `<li><span class="ph-no">Phase ${i + 1}</span><span class="ph-t">${name}</span>${desc ? `<span class="ph-d">${desc}</span>` : ""}</li>`;
+      })
+      .join("")}</ol>`;
+  }
+  if (b.video) {
+    const v = b.video;
+    return `<figure class="apa-fig video-fig is-vertical" data-video>
+      <figcaption><b>Figure ${v.n}</b><i>${v.title}</i></figcaption>
+      <div class="video-layout">
+        <div class="video-phone">
+          <div class="video-frame">
+            <video controls playsinline preload="metadata" aria-label="${v.title}">
+              <source src="${v.src}" type="video/mp4">
+              <p class="video-fallback">This browser can’t play the video here. <a href="${v.src}" download>Download it</a> to watch.</p>
+            </video>
+            <p class="video-missing">The video can’t be shown here. The file may not be uploaded yet, or this browser can’t play it. Use the download link.</p>
+          </div>
+        </div>
+        <div class="video-side">
+          <span class="fig-src">(Source: ${v.source})</span>
+          <a class="dl-link" href="${v.src}" download><span aria-hidden="true">↓</span> Download the video (MP4)</a>
+          ${v.aside ? blockHTML(v.aside) : ""}
+        </div>
+      </div>
+    </figure>`;
   }
   if (b.todo) {
     return `<p class="todo"><b>NOTE FOR THE TEAM</b>${b.todo}</p>`;
@@ -891,12 +1134,12 @@ function scaleKeyHTML() {
     .join("")}</ul></div>`;
 }
 
-const MATRIX_NOTE = `<p class="apa-note"><i>Note.</i> Criteria partly adapted from Engineers Without Borders Australia (2026b). All scores are the team’s own.</p>`;
+const MATRIX_NOTE = `<p class="apa-note"><i>Note.</i> Criteria partly adapted from EWB (2026b). All scores are the team’s own.</p>`;
 
 function chipsHTML() {
   const chip = (key, label, max) =>
     `<button type="button" class="chip" data-dm-crit="${key}" aria-pressed="${ui.crit === key}">${label}${max ? `<span>${max}</span>` : ""}</button>`;
-  return `<div class="chips" role="group" aria-label="Show criterion">
+  return `<p class="tap-hint"><span class="tap-ico" aria-hidden="true">☝</span>Tap a criterion to focus on it</p><div class="chips" role="group" aria-label="Show criterion">
     ${chip("all", "All criteria")}${criteria.map((c) => chip(c.key, c.name, c.max)).join("")}
   </div>`;
 }
@@ -1016,6 +1259,7 @@ function podiumHTML() {
   const delays = { 4: 0.1, 3: 0.45, 2: 0.8, 1: 1.55 };
   const winner = list[0];
   return `<div class="podium-wrap" data-widget="podium">
+    <div class="tap-row"><p class="tap-hint"><span class="tap-ico" aria-hidden="true">☝</span>Tap a column to turn it over</p><span class="tap-count" data-pod-count>0 of ${list.length} viewed</span></div>
     <div class="podium-bar">
       <p class="podium-winner"><span>Selected:</span> ${winner.name} · ${totalOf(winner)}/100</p>
       <button type="button" class="dm-tool" data-replay><span aria-hidden="true">↻</span> Replay reveal</button>
@@ -1028,20 +1272,20 @@ function podiumHTML() {
           const rank = list.indexOf(s) + 1;
           return `<div class="pslot${rank === 1 ? " is-first" : ""}" style="--h:${heights[rank]}%;--delay:${delays[rank]}s">
             <button type="button" class="pcol" data-pick="${s.id}" aria-pressed="false"
-                aria-label="Rank ${rank}: ${s.name}, ${totalOf(s)} out of 100. Turn over to see why.">
+                aria-label="Rank ${rank}: ${s.name}, ${totalOf(s)} out of 100. Turn over to see the score by criterion.">
               <span class="pcol-inner">
                 <span class="pcol-front">
                   <span class="pcol-rank">${rank}</span>
                   <span class="pcol-name">${s.short}</span>
                   ${rank === 1 ? `<span class="pcol-chip">★ Selected</span>` : ""}
                   <span class="pcol-score"><b>${totalOf(s)}</b><small>/100</small></span>
-                  <span class="pcol-tap">↻ Tap to see why</span>
+                  <span class="pcol-tap">↻ Tap to see scores</span>
                 </span>
                 <span class="pcol-back">
                   <span class="pb-rank">#${rank} · ${totalOf(s)}/100</span>
                   <span class="pb-name">${s.name}</span>
-                  <span class="pb-label${s.selected ? " is-yes" : ""}">${s.selected ? "Why it was selected" : "Reason rejected"}</span>
-                  <span class="pb-list">${s.verdict.map((v) => `<span>${v}</span>`).join("")}</span>
+                  <span class="pb-label${s.selected ? " is-yes" : ""}">Score by criterion</span>
+                  <span class="pb-list">${criteria.map((k) => `<span>${k.name}: ${s.scores[k.key]}/${k.max}</span>`).join("")}</span>
                   <span class="pb-back">↻ Tap to turn back</span>
                 </span>
               </span>
@@ -1053,8 +1297,37 @@ function podiumHTML() {
   </div>`;
 }
 
-function flipColumn(btn) {
+/* make the podium tall enough for the turned card's text, so nothing is cut off */
+function fitPodium(pod, slot, share) {
+  pod.style.height = "";
+  if (!slot) return;
+  const base = pod.getBoundingClientRect().height;
+  const gaps = parseFloat(getComputedStyle(pod).columnGap) || 0;
+  const n = pod.querySelectorAll(".pslot").length;
+  const width = (pod.clientWidth - gaps * (n - 1)) * share;
+  const probe = slot.querySelector(".pcol-back").cloneNode(true);
+  probe.style.cssText = `position:absolute;visibility:hidden;top:0;left:0;right:auto;bottom:auto;width:${width}px;height:auto;transform:none;`;
+  pod.append(probe);
+  const need = probe.scrollHeight + 4;
+  probe.remove();
+  if (need > base) pod.style.height = `${Math.ceil(need)}px`;
+}
+
+function flipColumn(btn, demo = false) {
   const pod = btn.closest(".podium");
+  if (!demo) {
+    const wrap = pod.closest(".podium-wrap");
+    wrap.classList.add("was-used");
+    clearTimeout(wrap._demo);
+    btn.closest(".pslot").classList.add("is-seen");
+    const seen = pod.querySelectorAll(".pslot.is-seen").length;
+    const total = pod.querySelectorAll(".pslot").length;
+    const count = wrap.querySelector("[data-pod-count]");
+    if (count) {
+      count.textContent = seen === total ? `All ${total} viewed ✓` : `${seen} of ${total} viewed`;
+      count.classList.toggle("is-done", seen === total);
+    }
+  }
   const slots = [...pod.querySelectorAll(".pslot")];
   const slot = btn.closest(".pslot");
   const was = slot.classList.contains("is-flipped");
@@ -1068,7 +1341,9 @@ function flipColumn(btn) {
   }
   const k = slots.indexOf(slot);
   pod.classList.toggle("has-flip", !was);
-  pod.style.gridTemplateColumns = was ? "" : slots.map((_, i) => `minmax(0, ${i === k ? 2.4 : 0.9}fr)`).join(" ");
+  const fr = slots.map((_, i) => (i === k ? 2.4 : 0.9));
+  pod.style.gridTemplateColumns = was ? "" : fr.map((f) => `minmax(0, ${f}fr)`).join(" ");
+  fitPodium(pod, was ? null : slot, fr[k] / fr.reduce((a, b) => a + b, 0));
 }
 
 /* ---------- app walkthrough ---------- */
@@ -1078,6 +1353,7 @@ function whyHTML() {
   const feature = need.features[ui.feature] || need.features[0];
   const screen = appScreens[feature.screen];
   return `<div class="why" data-widget="why">
+    <p class="tap-hint"><span class="tap-ico" aria-hidden="true">☝</span>Tap a need, then a feature, to highlight it on the screen</p>
     <div class="needs" role="tablist" aria-label="User needs">${appNeeds
       .map((n) => `<button type="button" role="tab" class="need" data-need="${n.key}" aria-selected="${n.key === need.key}">
         <b>${n.name}</b><span>${n.need}</span>
@@ -1085,6 +1361,7 @@ function whyHTML() {
       .join("")}</div>
     <div class="why-body">
       <figure class="phone-fig">
+        <figcaption><b>Figure ${screen.fig}</b><i>Offline Ranger Prioritisation &amp; Support App: ${screen.name}</i></figcaption>
         <span class="phone">
           <span class="phone-screen">
             <img src="${screen.src}" alt="Offline Ranger Prioritisation & Support App: ${screen.name}" decoding="async">
@@ -1093,7 +1370,7 @@ function whyHTML() {
               .join("")}
           </span>
         </span>
-        <figcaption><b>Figure ${screen.fig}</b><i>Offline Ranger Prioritisation &amp; Support App: ${screen.name}</i><span>(Screenshot by the authors)</span></figcaption>
+        <span class="fig-src">(Screenshot by the authors)</span>
       </figure>
       <div class="feats">
         <span class="feats-k">RANGERS NEED TO…</span>
@@ -1148,6 +1425,7 @@ function revealPodium(wrap) {
   const pod = wrap.querySelector(".podium");
   pod.classList.remove("has-flip");
   pod.style.gridTemplateColumns = "";
+  pod.style.height = "";
   wrap.querySelectorAll(".pslot").forEach((x) => x.classList.remove("is-flipped"));
   wrap.classList.remove("is-revealed");
   void wrap.offsetWidth;
@@ -1163,12 +1441,60 @@ spread.addEventListener("scroll", (event) => {
   if (event.target.classList && event.target.classList.contains("page-body")) updateScrollCue(event.target);
 }, true);
 
+const demoDone = { podium: false };
+
+spread.addEventListener("error", (event) => {
+  const t = event.target;
+  if (t && (t.tagName === "SOURCE" || t.tagName === "VIDEO")) {
+    const fig = t.closest("[data-video]");
+    if (fig) fig.classList.add("is-missing");
+  }
+}, true);
+
+function sizeFolders(box) {
+  box.style.height = "";
+  if (getComputedStyle(box).flexDirection === "column") return;
+  const folders = [...box.querySelectorAll(".folder")];
+  const gap = parseFloat(getComputedStyle(box).columnGap) || 0;
+  const closed = folders.find((f) => !f.classList.contains("is-open"));
+  const tab = closed ? closed.getBoundingClientRect().width : 56;
+  const width = box.clientWidth - (folders.length - 1) * (tab + gap);
+  let need = 0;
+  folders.forEach((f) => {
+    const probe = f.querySelector(".folder-body").cloneNode(true);
+    probe.style.cssText = `position:absolute;visibility:hidden;left:0;top:0;right:auto;bottom:auto;width:${width}px;height:auto;opacity:1;transform:none;`;
+    box.append(probe);
+    need = Math.max(need, probe.scrollHeight);
+    probe.remove();
+  });
+  const min = parseFloat(getComputedStyle(box).minHeight) || 0;
+  box.style.height = `${Math.ceil(Math.max(need + 8, min))}px`;
+}
+
+function sizeAllFolders() {
+  [pageLeft, pageRight].forEach((side) => side.querySelectorAll(".folders").forEach(sizeFolders));
+}
+window.addEventListener("resize", () => requestAnimationFrame(sizeAllFolders));
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(sizeAllFolders);
+
 function playArrivals() {
+  sizeAllFolders();
   [pageLeft, pageRight].forEach((side) => side.querySelectorAll(".page-body").forEach(updateScrollCue));
   [pageLeft, pageRight].forEach((side) => {
     side.querySelectorAll('[data-widget="podium"]:not([data-played])').forEach((w) => {
       w.dataset.played = "";
       revealPodium(w);
+      if (!demoDone.podium && !calmQuery.matches) {
+        demoDone.podium = true;
+        const first = w.querySelector(".pslot.is-first .pcol");
+        w._demo = setTimeout(() => {
+          if (!first.isConnected || w.classList.contains("was-used")) return;
+          flipColumn(first, true);
+          w._demo = setTimeout(() => {
+            if (first.isConnected && !w.classList.contains("was-used")) flipColumn(first, true);
+          }, 2600);
+        }, 3300);
+      }
     });
     side.querySelectorAll('[data-widget="matrix"]:not([data-played])').forEach((w) => {
       w.dataset.played = "";
@@ -1187,11 +1513,20 @@ spread.addEventListener("click", (event) => {
 
   if ("folder" in d) {
     const folder = el.closest(".folder");
-    folder.parentElement.querySelectorAll(".folder").forEach((f) => {
+    const all = folder.parentElement.querySelectorAll(".folder");
+    all.forEach((f) => {
       const open = f === folder;
       f.classList.toggle("is-open", open);
       f.querySelector(".folder-tab").setAttribute("aria-expanded", String(open));
     });
+    folder.classList.add("is-seen");
+    folder.parentElement.classList.add("was-used");
+    const seen = folder.parentElement.querySelectorAll(".is-seen").length;
+    const count = folder.closest(".page-body").querySelector("[data-folder-count]");
+    if (count) {
+      count.textContent = seen === all.length ? `All ${all.length} opened ✓` : `${seen} of ${all.length} opened`;
+      count.classList.toggle("is-done", seen === all.length);
+    }
     return;
   }
 
@@ -1229,8 +1564,12 @@ function setSide(side, item) {
   el.innerHTML = item === null || item === undefined ? "" : pageHTML(item, side);
 }
 
-function setClosed(value) {
+/* side: "front" keeps the right half (front cover), "back" keeps the left half (back cover) */
+function setClosed(value, side = "front") {
   stage.style.setProperty("--closed", value.toFixed(4));
+  stage.style.setProperty("--cf", side === "front" ? value.toFixed(4) : "0");
+  stage.style.setProperty("--cb", side === "back" ? value.toFixed(4) : "0");
+  stage.dataset.closeSide = side;
 }
 
 function renderStatic() {
@@ -1239,8 +1578,8 @@ function renderStatic() {
     setSide("left", leftOf(view));
     setSide("right", rightOf(view));
     if (view < 0) addStaticLeaf({ side: "right", front: COVER, back: 0 }, 0);
-    if (view >= SPREADS) addStaticLeaf({ side: "left", front: leftOf(view), back: BACK }, 1);
-    setClosed(view < 0 || view >= SPREADS ? 1 : 0);
+    if (view >= SPREADS) addStaticLeaf({ side: "right", front: rightOf(SPREADS - 1), back: BACK }, 1);
+    setClosed(view < 0 || view >= SPREADS ? 1 : 0, view >= SPREADS ? "back" : "front");
   } else {
     setSide("left", null);
     setSide("right", itemAt(view));
@@ -1376,11 +1715,11 @@ function stepFor(v, forward) {
   if (mode === "spread") {
     if (forward) {
       if (v < 0) return { side: "right", front: COVER, back: 0, kind: "open" };
-      if (v === SPREADS - 1) return { side: "left", front: leftOf(v), back: BACK, kind: "close" };
+      if (v === SPREADS - 1) return { side: "right", front: rightOf(v), back: BACK, kind: "close" };
       return { side: "right", front: rightOf(v), back: leftOf(v + 1) };
     }
     if (v === 0) return { side: "right", front: COVER, back: 0, kind: "unopen", reverse: true };
-    if (v >= SPREADS) return { side: "left", front: leftOf(SPREADS - 1), back: BACK, kind: "reopen", reverse: true };
+    if (v >= SPREADS) return { side: "right", front: rightOf(SPREADS - 1), back: BACK, kind: "reopen", reverse: true };
     return { side: "left", front: leftOf(v), back: rightOf(v - 1) };
   }
   return forward
@@ -1414,7 +1753,7 @@ function applyLeaf(leaf, p) {
   const onStartSide = m.reverse ? p > 0.5 : p < 0.5;
   leaf.style.zIndex = onStartSide ? 100 + m.count - m.order : 300 + m.order;
   if (m.side === "single") leaf.style.opacity = p > 0.5 ? "0" : "1";
-  if (m.kind) setClosed(closedness(m.kind, p));
+  if (m.kind) setClosed(closedness(m.kind, p), m.kind === "close" || m.kind === "reopen" ? "back" : "front");
 }
 
 /* how far the book is folded shut while a cover moves */
@@ -1562,8 +1901,8 @@ function goToPage(i) {
 function dragTarget(side) {
   const last = lastView();
   if (mode === "spread") {
-    if (side === "right") return view >= last ? last - 1 : view < last - 1 ? view + 1 : null;
-    return view >= 0 && view < last ? view - 1 : null;
+    if (side === "right") return view < last ? view + 1 : null;
+    return view >= 0 ? view - 1 : null;
   }
   if (side === "right") return view < last ? view + 1 : null;
   return view > -1 ? view - 1 : null;
@@ -1699,7 +2038,7 @@ function foldedMapHTML() {
       <span class="fold-thumb" aria-hidden="true">${[0, 1, 2]
         .map((i) => `<i class="ft ft-${i}"><span class="ft-art" style="left:-${i * 100}%">${mapSVG()}</span></i>`)
         .join("")}</span>
-      <span class="folded-cta">UNFOLD THE MAP <span aria-hidden="true">→</span></span>
+      <span class="folded-cta"><span class="tap-ico" aria-hidden="true">☝</span> TAP TO UNFOLD THE MAP <span aria-hidden="true">→</span></span>
     </button>
     <p class="map-teaser-cap">Where is Lama Lama Country? East Cape York Peninsula, Queensland.</p>
   </div>`;
