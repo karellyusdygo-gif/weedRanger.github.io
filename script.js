@@ -523,7 +523,7 @@ const pages = [
     title: "Recommendations",
     tag: "RECOMMENDATIONS",
     blocks: [
-      { p: "The current desvign works well, however, it can be improved by integrating some extensive technologies." },
+      { p: "The current design works well, however, it can be improved by integrating some extensive technologies." },
       { recs: { start: 1, items: [
         { title: "AI Integration", text: "An on-device image-recognition model could identify weed species from photos without internet access, addressing the connectivity limits of the stand-alone AI option (Option 3). Model updates could be delivered with regular app updates.", fig: { n: 8, title: "Artificial intelligence concept image", src: "images/rec1-ai.png", source: "Adobe, n.d." } },
         { title: "Connectivity &amp; Sync", text: "Advanced conflict resolution algorithms and Bluetooth P2P mesh sharing for deep remote camps.", fig: { n: 9, title: "Network Illustration", src: "images/rec2-network.png", source: "Coeo Solutions, n.d." } }

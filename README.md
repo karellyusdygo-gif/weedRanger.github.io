@@ -14,7 +14,7 @@ Keep `index.html`, `styles.css`, `script.js` and the `images`, `docs`, `video` a
 
 | Folder | File (exact name) | Where it appears |
 | --- | --- | --- |
-| `docs/` | `team_charter.docx` | Appendix 1, with a download button |
+| `docs/` | `team_charter.docx` | Appendix 1, with a download button (included) |
 | `docs/` | `team_meeting_minutes.docx` | Appendix 2, with a download button (included) |
 | `video/` | `demo_recording.mp4` | Prototype demonstration page (Figure 7), embedded player plus a download link |
 | `apk/` | `ranger_app.apk` | Prototype demonstration page, "Download APK (Android)" button |
